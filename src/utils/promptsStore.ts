@@ -20,6 +20,12 @@ class PromptsStore {
 
   // Load prompts from localStorage
   private loadFromStorage(): void {
+    // Check if we're in a browser environment
+    if (typeof window === 'undefined') {
+      this.prompts = [];
+      return;
+    }
+
     try {
       const stored = localStorage.getItem(this.STORAGE_KEY);
       if (stored) {
@@ -38,6 +44,11 @@ class PromptsStore {
 
   // Save prompts to localStorage
   private saveToStorage(): void {
+    // Check if we're in a browser environment
+    if (typeof window === 'undefined') {
+      return;
+    }
+
     try {
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.prompts));
     } catch (error) {

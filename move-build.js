@@ -1,6 +1,12 @@
 const fs = require('fs');
 const path = require('path');
 
+// Prevent running during development
+if (process.env.NODE_ENV !== 'production') {
+  console.warn('⚠️  move-build.js should only be run after a production build. Skipping move.');
+  process.exit(0);
+}
+
 // Configuration - Single source of truth for build destination
 const BUILD_CONFIG = {
   sourceDir: path.join(__dirname, 'build'),
