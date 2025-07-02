@@ -21,6 +21,13 @@ export default function Home() {
               <button className="px-4 py-2 bg-blue-600 text-white rounded-md font-medium">
                 Design Blueprint
               </button>
+              {/* Doctrine Compliance Tab */}
+              <Link 
+                href="/doctrine"
+                className="px-4 py-2 bg-red-600 text-white rounded-md font-medium hover:bg-red-700 transition-colors"
+              >
+                Doctrine Compliance
+              </Link>
               {/* Prompts Tab */}
               <Link 
                 href="/prompts"
