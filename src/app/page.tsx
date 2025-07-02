@@ -21,6 +21,13 @@ export default function Home() {
               <button className="px-4 py-2 bg-blue-600 text-white rounded-md font-medium">
                 Design Blueprint
               </button>
+              {/* Prompts Tab */}
+              <a 
+                href="/prompts"
+                className="px-4 py-2 bg-green-600 text-white rounded-md font-medium hover:bg-green-700 transition-colors"
+              >
+                Prompts Library
+              </a>
               {/* Re-engineering Tab - Coming Soon */}
               <button 
                 className="px-4 py-2 bg-gray-300 text-gray-500 rounded-md font-medium cursor-not-allowed"

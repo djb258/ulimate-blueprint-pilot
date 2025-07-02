@@ -44,4 +44,6 @@ This is a Next.js 15.3.4 project for the Ultimate Blueprint Pilot app - a cockpi
 
 ## Repository
 - GitHub: https://github.com/djb258/ulimate-blueprint-pilot.git
-- Vercel Deployment: Auto-deploys from main branch 
+- Vercel Deployment: Auto-deploys from main branch
+- Build Output: C:/Users/CUSTOM PC/Desktop/cursor builds
+- Build Management: Timestamped builds with automatic cleanup (keeps last 5) 
