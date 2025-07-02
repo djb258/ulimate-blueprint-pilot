@@ -1,0 +1,47 @@
+# Ultimate Blueprint Pilot - Cursor Rules
+
+## Project Overview
+This is a Next.js 15.3.4 project for the Ultimate Blueprint Pilot app - a cockpit for designing micro-engineered blueprints.
+
+## Build Commands
+- Development: `npm run dev` (uses Turbopack)
+- Production Build: `npm run build`
+- Start Production: `npm run start`
+- Linting: `npm run lint`
+
+## Project Structure
+- `/src/app/` - Next.js App Router pages and layouts
+- `/src/components/` - React components
+- `/src/styles/` - CSS and styling files
+- `/public/` - Static assets
+
+## Key Files
+- `src/app/page.tsx` - Main application page
+- `src/app/layout.tsx` - Root layout component
+- `src/components/PhaseTracker.tsx` - Phase tracking component
+- `src/components/PhaseSection.tsx` - Individual phase component
+- `src/components/ReengineeringSection.tsx` - Re-engineering mode placeholder
+
+## Technology Stack
+- Next.js 15.3.4 with App Router
+- React 19
+- TypeScript
+- Tailwind CSS v4
+- ESLint
+
+## Development Guidelines
+- Use TypeScript for all components
+- Follow Next.js 13+ App Router conventions
+- Use Tailwind CSS for styling
+- Keep components modular and reusable
+- Comment code for future extensibility
+
+## Future Features (Planned)
+- Step 2: Prompts Page functionality
+- Step 3: Re-engineering Mode for analyzing GitHub apps
+- Phase completion logic
+- Interactive phase progression
+
+## Repository
+- GitHub: https://github.com/djb258/ulimate-blueprint-pilot.git
+- Vercel Deployment: Auto-deploys from main branch 
