@@ -9,7 +9,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 // Configuration - Single source of truth for build destination
 const BUILD_CONFIG = {
-  sourceDir: path.join(__dirname, 'build'),
+  sourceDir: path.join(__dirname, process.env.VERCEL ? '.next' : 'build'),
   baseDestDir: 'C:/Users/CUSTOM PC/Desktop/cursor builds',
   maxBuilds: 5 // Keep only last 5 builds
 };
