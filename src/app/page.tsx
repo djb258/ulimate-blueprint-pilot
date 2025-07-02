@@ -1,5 +1,5 @@
+import Link from 'next/link';
 import PhaseTracker from '../components/PhaseTracker';
-import ReengineeringSection from '../components/ReengineeringSection';
 
 export default function Home() {
   return (
@@ -22,20 +22,19 @@ export default function Home() {
                 Design Blueprint
               </button>
               {/* Prompts Tab */}
-              <a 
+              <Link 
                 href="/prompts"
                 className="px-4 py-2 bg-green-600 text-white rounded-md font-medium hover:bg-green-700 transition-colors"
               >
                 Prompts Library
-              </a>
-              {/* Re-engineering Tab - Coming Soon */}
-              <button 
-                className="px-4 py-2 bg-gray-300 text-gray-500 rounded-md font-medium cursor-not-allowed"
-                disabled
-                title="Coming in Step 3"
+              </Link>
+              {/* Re-engineering Tab */}
+              <Link 
+                href="/reengineer"
+                className="px-4 py-2 bg-purple-600 text-white rounded-md font-medium hover:bg-purple-700 transition-colors"
               >
                 Re-engineer Existing App
-              </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -45,9 +44,22 @@ export default function Home() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <PhaseTracker />
         
-        {/* Placeholder for Re-engineering Mode */}
+        {/* Re-engineering Mode Link */}
         <div className="mt-12">
-          <ReengineeringSection />
+          <div className="bg-white rounded-lg shadow-md p-6 text-center">
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">
+              Ready to Re-engineer?
+            </h2>
+            <p className="text-gray-600 mb-6">
+              Analyze existing GitHub repositories and generate comprehensive gap reports to improve your applications.
+            </p>
+            <Link 
+              href="/reengineer"
+              className="inline-flex items-center px-6 py-3 bg-purple-600 text-white rounded-md font-medium hover:bg-purple-700 transition-colors"
+            >
+              Launch Re-engineering Mode
+            </Link>
+          </div>
         </div>
       </div>
     </main>
