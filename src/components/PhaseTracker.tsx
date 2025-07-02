@@ -12,7 +12,7 @@ const phases = [
 ];
 
 // Statuses: 0 = not started, 1 = in progress, 2 = completed
-const phaseStatuses = [0, 0, 0, 0, 0, 0, 0]; // Placeholder for future logic
+const phaseStatuses: (0 | 1 | 2)[] = [0, 0, 0, 0, 0, 0, 0]; // Placeholder for future logic
 
 export default function PhaseTracker() {
   return (
