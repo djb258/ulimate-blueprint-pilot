@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
+    "build": "next build && node move-build.js",
     "start": "next start",
     "lint": "next lint"
   },
