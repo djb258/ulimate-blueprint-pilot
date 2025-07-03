@@ -1,3 +1,6 @@
+import { writeFileSync, mkdirSync, existsSync } from 'fs';
+import { join } from 'path';
+
 // Types for module outputs
 interface ModuleOutput {
   [key: string]: unknown;
@@ -9,6 +12,16 @@ interface FinalBlueprint {
   doctrine_reference: string;
   commander_signoff: string;
   modules: Record<string, ModuleOutput>;
+  metadata: {
+    assembledAt: string;
+    assembledBy: string;
+  };
+}
+
+interface PackageResult {
+  success: boolean;
+  filePath?: string;
+  error?: string;
 }
 
 // Load outputs from all modules (stub)
@@ -45,11 +58,15 @@ export function assembleFinalBlueprint({ moduleOutputs, version, commanderSignof
       solution_design: moduleOutputs.solution_design,
       security: moduleOutputs.security,
     },
+    metadata: {
+      assembledAt: new Date().toISOString(),
+      assembledBy: 'system',
+    },
   };
 }
 
 // Save final blueprint as YAML/JSON (stub)
-export function saveFinalBlueprint(blueprint: FinalBlueprint): { success: boolean; filePath?: string; error?: string } {
+export function saveFinalBlueprint(blueprint: FinalBlueprint): PackageResult {
   // TODO: Implement file save logic
   const version = blueprint.version || 'v1.0.0';
   const filePath = `/blueprints/final_blueprint_${version}.yaml`;

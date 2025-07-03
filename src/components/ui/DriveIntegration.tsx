@@ -4,8 +4,8 @@ import React, { useState, useEffect } from 'react';
 import { Blueprint } from '../../types';
 
 interface DriveIntegrationProps {
-  onBlueprintSelect?: (blueprint: Blueprint) => void;
-  onBlueprintDownload?: (blueprint: Blueprint) => void;
+  onBlueprintSelect?: (blueprint: DriveBlueprint) => void;
+  onBlueprintDownload?: (blueprint: DriveBlueprint) => void;
   onBlueprintDelete?: (blueprintId: string) => void;
 }
 
@@ -37,6 +37,22 @@ export default function DriveIntegration({
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState<'all' | 'approved' | 'in_progress' | 'draft'>('all');
   const [sortBy, setSortBy] = useState<'name' | 'modified' | 'status'>('modified');
+  const [files, setFiles] = useState<Array<{
+    id: string;
+    name: string;
+    mimeType: string;
+    size: number;
+    createdTime: string;
+    modifiedTime: string;
+  }>>([]);
+  const [selectedFile, setSelectedFile] = useState<{
+    id: string;
+    name: string;
+    mimeType: string;
+    size: number;
+    createdTime: string;
+    modifiedTime: string;
+  } | null>(null);
 
   // Mock data for demonstration
   useEffect(() => {

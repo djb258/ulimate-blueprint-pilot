@@ -414,9 +414,10 @@ function ConstantCard({ constant, onUpdate, onRemove }: ConstantCardProps) {
           <input
             type="text"
             value={constant.value as string}
-            onChange={(e) => onUpdate({ value: e.target.value })}
-            placeholder="Constant value"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+            onChange={e => onUpdate({ value: e.target.value })}
+            placeholder="Enter constant value"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
           />
         </div>
 
