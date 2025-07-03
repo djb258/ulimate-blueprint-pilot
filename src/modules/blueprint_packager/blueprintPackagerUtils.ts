@@ -1,9 +1,11 @@
-import { writeFileSync, mkdirSync, existsSync } from 'fs';
-import { join } from 'path';
-
 // Types for module outputs
 interface ModuleOutput {
   [key: string]: unknown;
+}
+
+interface CommanderIntentOutput {
+  blueprint_id?: string;
+  doctrine_reference?: string;
 }
 
 interface FinalBlueprint {
@@ -44,10 +46,11 @@ export function assembleFinalBlueprint({ moduleOutputs, version, commanderSignof
   version: string;
   commanderSignoff: string;
 }): FinalBlueprint {
+  const commanderIntent = moduleOutputs.commander_intent as CommanderIntentOutput;
   return {
-    blueprint_id: (moduleOutputs.commander_intent as { blueprint_id?: string })?.blueprint_id || 'example_blueprint',
+    blueprint_id: commanderIntent?.blueprint_id || 'example_blueprint',
     version,
-    doctrine_reference: (moduleOutputs.commander_intent as { doctrine_reference?: string })?.doctrine_reference || 'nuclear_doctrine_v1.2',
+    doctrine_reference: commanderIntent?.doctrine_reference || 'nuclear_doctrine_v1.2',
     commander_signoff: commanderSignoff,
     modules: {
       commander_intent: moduleOutputs.commander_intent,

@@ -120,6 +120,12 @@ export default function PingPongIntegrationModule({
     setPayload(example);
   };
 
+  // Helper to safely get doctrine description
+  function getDoctrineDescription(key: string): string {
+    const doctrine = (DOCTRINE_VERSIONS as Record<string, { description: string }>)[key];
+    return doctrine ? doctrine.description : 'Unknown doctrine version';
+  }
+
   return (
     <div className="max-w-3xl mx-auto p-6 space-y-6">
       {/* Header */}
@@ -200,7 +206,7 @@ export default function PingPongIntegrationModule({
               <option key={key} value={key}>{doctrine.label}</option>
             ))}
           </select>
-          <p className="text-xs text-gray-600 mt-1">{DOCTRINE_VERSIONS[payload.ping_pong_refinement.doctrine_reference]?.description}</p>
+          <p className="text-xs text-gray-600 mt-1">{getDoctrineDescription(payload.ping_pong_refinement.doctrine_reference)}</p>
         </div>
         <div className="mb-6">
           <label className="block text-sm font-medium text-gray-700 mb-2">Audit Tag</label>

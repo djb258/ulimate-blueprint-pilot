@@ -1,11 +1,11 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { GoogleDriveService } from './googleDriveService';
+import { GoogleDriveService, BlueprintData } from './googleDriveService';
 
 interface GoogleDriveIntegrationProps {
   onBlueprintSaved?: (filePath: string) => void;
-  onBlueprintLoaded?: (blueprint: any) => void;
+  onBlueprintLoaded?: (blueprint: unknown) => void;
 }
 
 interface DriveFile {
@@ -17,6 +17,19 @@ interface DriveFile {
   webViewLink?: string;
 }
 
+function loadBlueprintFiles(
+  setIsLoading: (v: boolean) => void,
+  setBlueprintFiles: (files: DriveFile[]) => void,
+  setError: (msg: string) => void
+) {
+  setIsLoading(true);
+  const driveService = new GoogleDriveService();
+  driveService.listBlueprintFiles()
+    .then(files => setBlueprintFiles(files))
+    .catch(() => setError('Failed to load blueprint files'))
+    .finally(() => setIsLoading(false));
+}
+
 export default function GoogleDriveIntegration({ onBlueprintSaved, onBlueprintLoaded }: GoogleDriveIntegrationProps) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -26,34 +39,33 @@ export default function GoogleDriveIntegration({ onBlueprintSaved, onBlueprintLo
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
-  const driveService = new GoogleDriveService();
-
   useEffect(() => {
     // Check if user is already authenticated
+    const driveService = new GoogleDriveService();
+    const checkAuthStatus = async () => {
+      try {
+        const authenticated = await driveService.isAuthenticated();
+        setIsAuthenticated(authenticated);
+        if (authenticated) {
+          loadBlueprintFiles(setIsLoading, setBlueprintFiles, setError);
+        }
+      } catch {
+        setError('Failed to check authentication status');
+      }
+    };
     checkAuthStatus();
   }, []);
-
-  const checkAuthStatus = async () => {
-    try {
-      const authenticated = await driveService.isAuthenticated();
-      setIsAuthenticated(authenticated);
-      if (authenticated) {
-        loadBlueprintFiles();
-      }
-    } catch (err) {
-      setError('Failed to check authentication status');
-    }
-  };
 
   const handleLogin = async () => {
     setIsLoading(true);
     setError(null);
     try {
+      const driveService = new GoogleDriveService();
       await driveService.authenticate();
       setIsAuthenticated(true);
-      await loadBlueprintFiles();
+      loadBlueprintFiles(setIsLoading, setBlueprintFiles, setError);
       setSuccess('Successfully authenticated with Google Drive');
-    } catch (err) {
+    } catch {
       setError('Authentication failed. Please try again.');
     } finally {
       setIsLoading(false);
@@ -62,29 +74,18 @@ export default function GoogleDriveIntegration({ onBlueprintSaved, onBlueprintLo
 
   const handleLogout = async () => {
     try {
+      const driveService = new GoogleDriveService();
       await driveService.logout();
       setIsAuthenticated(false);
       setBlueprintFiles([]);
       setSelectedFile(null);
       setSuccess('Successfully logged out');
-    } catch (err) {
+    } catch {
       setError('Logout failed');
     }
   };
 
-  const loadBlueprintFiles = async () => {
-    setIsLoading(true);
-    try {
-      const files = await driveService.listBlueprintFiles();
-      setBlueprintFiles(files);
-    } catch (err) {
-      setError('Failed to load blueprint files');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleSaveBlueprint = async (blueprintData: any, fileName: string) => {
+  const handleSaveBlueprint = async (blueprintData: unknown, fileName: string) => {
     if (!commanderApproval) {
       setError('Commander approval required before saving to Drive');
       return;
@@ -93,11 +94,12 @@ export default function GoogleDriveIntegration({ onBlueprintSaved, onBlueprintLo
     setIsLoading(true);
     setError(null);
     try {
-      const filePath = await driveService.saveBlueprint(blueprintData, fileName);
+      const driveService = new GoogleDriveService();
+      const filePath = await driveService.saveBlueprint(blueprintData as BlueprintData, fileName);
       setSuccess(`Blueprint saved to Drive: ${filePath}`);
       onBlueprintSaved?.(filePath);
-      await loadBlueprintFiles(); // Refresh file list
-    } catch (err) {
+      loadBlueprintFiles(setIsLoading, setBlueprintFiles, setError);
+    } catch {
       setError('Failed to save blueprint to Drive');
     } finally {
       setIsLoading(false);
@@ -108,11 +110,12 @@ export default function GoogleDriveIntegration({ onBlueprintSaved, onBlueprintLo
     setIsLoading(true);
     setError(null);
     try {
+      const driveService = new GoogleDriveService();
       const blueprint = await driveService.loadBlueprint(file.id);
       setSelectedFile(file);
       onBlueprintLoaded?.(blueprint);
       setSuccess(`Loaded blueprint: ${file.name}`);
-    } catch (err) {
+    } catch {
       setError('Failed to load blueprint from Drive');
     } finally {
       setIsLoading(false);
@@ -128,10 +131,11 @@ export default function GoogleDriveIntegration({ onBlueprintSaved, onBlueprintLo
     setIsLoading(true);
     setError(null);
     try {
+      const driveService = new GoogleDriveService();
       await driveService.deleteBlueprint(fileId);
       setSuccess('Blueprint deleted from Drive');
-      await loadBlueprintFiles(); // Refresh file list
-    } catch (err) {
+      loadBlueprintFiles(setIsLoading, setBlueprintFiles, setError);
+    } catch {
       setError('Failed to delete blueprint from Drive');
     } finally {
       setIsLoading(false);
@@ -204,7 +208,7 @@ export default function GoogleDriveIntegration({ onBlueprintSaved, onBlueprintLo
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-xl font-semibold text-gray-800">Blueprint Files</h3>
           <button
-            onClick={loadBlueprintFiles}
+            onClick={() => loadBlueprintFiles(setIsLoading, setBlueprintFiles, setError)}
             disabled={isLoading}
             className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-300"
           >

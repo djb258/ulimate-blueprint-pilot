@@ -50,7 +50,7 @@ export default function RootLayout({
       >
         <ErrorBoundary>
           <NotificationProvider>
-            {children}
+        {children}
           </NotificationProvider>
         </ErrorBoundary>
       </body>

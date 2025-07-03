@@ -31,28 +31,12 @@ export default function DriveIntegration({
   onBlueprintDownload, 
   onBlueprintDelete 
 }: DriveIntegrationProps) {
-  const [blueprints, setBlueprints] = useState<DriveBlueprint[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
   const [isConnected, setIsConnected] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [blueprints, setBlueprints] = useState<DriveBlueprint[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState<'all' | 'approved' | 'in_progress' | 'draft'>('all');
   const [sortBy, setSortBy] = useState<'name' | 'modified' | 'status'>('modified');
-  const [files, setFiles] = useState<Array<{
-    id: string;
-    name: string;
-    mimeType: string;
-    size: number;
-    createdTime: string;
-    modifiedTime: string;
-  }>>([]);
-  const [selectedFile, setSelectedFile] = useState<{
-    id: string;
-    name: string;
-    mimeType: string;
-    size: number;
-    createdTime: string;
-    modifiedTime: string;
-  } | null>(null);
 
   // Mock data for demonstration
   useEffect(() => {
@@ -297,7 +281,7 @@ export default function DriveIntegration({
             </p>
           </div>
         ) : (
-          filteredBlueprints.map((blueprint) => (
+          filteredBlueprints.map((blueprint: DriveBlueprint) => (
             <div key={blueprint.id} className="bg-white rounded-lg shadow-sm border p-6 hover:shadow-md transition-shadow">
               <div className="flex items-start justify-between">
                 <div className="flex-1 min-w-0">

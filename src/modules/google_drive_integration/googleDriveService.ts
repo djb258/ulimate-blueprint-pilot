@@ -10,7 +10,7 @@ interface DriveFile {
   webViewLink?: string;
 }
 
-interface BlueprintData {
+export interface BlueprintData {
   blueprint_id: string;
   version: string;
   doctrine_reference: string;
@@ -78,7 +78,7 @@ export class GoogleDriveService {
       const user = await authInstance.signIn();
       const authResponse = user.getAuthResponse();
       this.accessToken = authResponse.access_token;
-    } catch (error) {
+    } catch {
       throw new Error('Authentication failed');
     }
   }
@@ -94,7 +94,7 @@ export class GoogleDriveService {
         await authInstance.signOut();
       }
       this.accessToken = null;
-    } catch (error) {
+    } catch {
       throw new Error('Logout failed');
     }
   }
@@ -125,7 +125,7 @@ export class GoogleDriveService {
 
       // Create folder if it doesn't exist
       return await this.createBlueprintFolder();
-    } catch (error) {
+    } catch {
       throw new Error('Failed to get blueprint folder');
     }
   }
@@ -154,7 +154,7 @@ export class GoogleDriveService {
 
       const data = await response.json();
       return data.id;
-    } catch (error) {
+    } catch {
       throw new Error('Failed to create blueprint folder');
     }
   }
@@ -185,7 +185,7 @@ export class GoogleDriveService {
 
       const data = await response.json();
       return data.files || [];
-    } catch (error) {
+    } catch {
       throw new Error('Failed to list blueprint files');
     }
   }
@@ -245,7 +245,7 @@ export class GoogleDriveService {
       }
 
       return `${this.BLUEPRINT_FOLDER_NAME}/${fileName}`;
-    } catch (error) {
+    } catch {
       throw new Error('Failed to save blueprint');
     }
   }
@@ -271,7 +271,7 @@ export class GoogleDriveService {
 
       const yamlContent = await response.text();
       return this.parseYAML(yamlContent);
-    } catch (error) {
+    } catch {
       throw new Error('Failed to load blueprint');
     }
   }
@@ -292,7 +292,7 @@ export class GoogleDriveService {
       if (!response.ok) {
         throw new Error('Failed to delete file');
       }
-    } catch (error) {
+    } catch {
       throw new Error('Failed to delete blueprint');
     }
   }

@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { validateModuleData, schemaRegistry } from '../../lib/schemas';
 import { parseImportedSpec, mapToBlueprintModules, generateCleanedBlueprint } from './importCleanupUtils';
 
+type ModuleData = Record<string, unknown>;
+
 export default function ImportCleanupModule() {
-  const [importedFile, setImportedFile] = useState<File | null>(null);
-  const [importedData, setImportedData] = useState<any>(null);
-  const [moduleData, setModuleData] = useState<any>({});
+  const [importedData, setImportedData] = useState<ModuleData | null>(null);
+  const [moduleData, setModuleData] = useState<Record<string, ModuleData>>({});
   const [currentModule, setCurrentModule] = useState<string>('commander_intent');
   const [validationErrors, setValidationErrors] = useState<string[]>([]);
   const [signOff, setSignOff] = useState<{ [module: string]: boolean }>({});
@@ -15,7 +16,6 @@ export default function ImportCleanupModule() {
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    setImportedFile(file);
     const text = await file.text();
     const parsed = parseImportedSpec(text, file.name);
     setImportedData(parsed);
@@ -24,11 +24,6 @@ export default function ImportCleanupModule() {
     setCurrentModule('commander_intent');
     setSignOff({});
     setOutputPath(null);
-  };
-
-  // Handle module data change
-  const handleModuleChange = (module: string, data: any) => {
-    setModuleData((prev: any) => ({ ...prev, [module]: data }));
   };
 
   // Handle sign-off

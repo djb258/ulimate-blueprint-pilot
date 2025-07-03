@@ -136,7 +136,7 @@ export default function SecurityModule({
         updated_at: new Date().toISOString()
       }
     }));
-  }, [payload.security.components, payload.error_handling, payload.healing, commanderSignedOff]);
+  }, [payload.security.components, payload.error_handling, payload.healing, payload.security.nuclear_doctrine_version, payload.error_handling.nuclear_doctrine_version, commanderSignedOff]);
 
   const addSecurityComponent = () => {
     const newComponent: SecurityComponent = {

@@ -29,18 +29,6 @@ export default function FinalBlueprintPackagerModule() {
   const [commanderSignoff, setCommanderSignoff] = useState('');
   const [outputPath, setOutputPath] = useState<string | null>(null);
   const [packagingError, setPackagingError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [validationResults, setValidationResults] = useState<{
-    modulesPresent: boolean;
-    schemaCompliant: boolean;
-    commanderApproved: boolean;
-    readyForPackaging: boolean;
-  }>({
-    modulesPresent: false,
-    schemaCompliant: false,
-    commanderApproved: false,
-    readyForPackaging: false
-  });
 
   // Load all module outputs and validate
   const handleLoadModules = () => {

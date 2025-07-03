@@ -770,6 +770,87 @@ export const finalBlueprintSchema = {
   }
 };
 
+// Equation Schema
+export const equationSchema = {
+  ...baseModuleSchema,
+  required: [...baseModuleSchema.required, 'equation', 'variables', 'constants'],
+  properties: {
+    ...baseModuleSchema.properties,
+    equation: {
+      type: 'string',
+      minLength: 1,
+      maxLength: 1000
+    },
+    variables: {
+      type: 'array',
+      minItems: 1,
+      items: {
+        type: 'object',
+        required: ['name', 'type', 'description'],
+        properties: {
+          name: { type: 'string', minLength: 1 },
+          type: { type: 'string', enum: ['number', 'string', 'boolean', 'array', 'object'] },
+          description: { type: 'string', minLength: 1 },
+          default_value: { type: 'string' },
+          validation: { type: 'string' }
+        }
+      }
+    },
+    constants: {
+      type: 'array',
+      items: {
+        type: 'object',
+        required: ['name', 'value', 'description'],
+        properties: {
+          name: { type: 'string', minLength: 1 },
+          value: { type: 'string', minLength: 1 },
+          description: { type: 'string', minLength: 1 },
+          unit: { type: 'string' }
+        }
+      }
+    }
+  }
+};
+
+// Constants and Variables Schema
+export const constantsVariablesSchema = {
+  ...baseModuleSchema,
+  required: [...baseModuleSchema.required, 'constants', 'variables'],
+  properties: {
+    ...baseModuleSchema.properties,
+    constants: {
+      type: 'array',
+      items: {
+        type: 'object',
+        required: ['name', 'value', 'type', 'description'],
+        properties: {
+          name: { type: 'string', minLength: 1 },
+          value: { type: 'string', minLength: 1 },
+          type: { type: 'string', enum: ['string', 'number', 'boolean', 'array', 'object'] },
+          description: { type: 'string', minLength: 1 },
+          scope: { type: 'string', enum: ['global', 'module', 'function'] },
+          is_immutable: { type: 'boolean' }
+        }
+      }
+    },
+    variables: {
+      type: 'array',
+      items: {
+        type: 'object',
+        required: ['name', 'type', 'description'],
+        properties: {
+          name: { type: 'string', minLength: 1 },
+          type: { type: 'string', enum: ['string', 'number', 'boolean', 'array', 'object'] },
+          description: { type: 'string', minLength: 1 },
+          default_value: { type: 'string' },
+          scope: { type: 'string', enum: ['global', 'module', 'function'] },
+          is_required: { type: 'boolean' }
+        }
+      }
+    }
+  }
+};
+
 // Schema registry for easy access
 export const schemaRegistry = {
   commander_intent: commanderIntentSchema,
@@ -777,6 +858,8 @@ export const schemaRegistry = {
   solution_design: solutionDesignSchema,
   security: securitySchema,
   ping_pong_integration: pingPongSchema,
+  equation: equationSchema,
+  constants_variables: constantsVariablesSchema,
   final_blueprint: finalBlueprintSchema
 };
 
@@ -871,10 +954,11 @@ export function validateSchema(data: unknown, schema: SchemaDefinition): SchemaV
       if (typeof data !== 'string') {
         errors.push('Value must be a string');
       } else {
-        if (schema.minLength && data.length < schema.minLength) {
+        const stringData = data as string;
+        if (schema.minLength && stringData.length < schema.minLength) {
           errors.push(`String must be at least ${schema.minLength} characters`);
         }
-        if (schema.maxLength && data.length > schema.maxLength) {
+        if (schema.maxLength && stringData.length > schema.maxLength) {
           errors.push(`String must be at most ${schema.maxLength} characters`);
         }
       }
