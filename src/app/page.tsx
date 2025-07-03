@@ -176,9 +176,12 @@ export default function Home() {
               </div>
               <div className="hidden md:flex space-x-4">
                 {/* Main Tracker Tab - Active */}
-                <button className="px-4 py-2 bg-blue-600 text-white rounded-md font-medium shadow-sm">
+                <Link 
+                  href="/"
+                  className="px-4 py-2 bg-blue-600 text-white rounded-md font-medium shadow-sm"
+                >
                   Design Blueprint
-                </button>
+                </Link>
                 {/* Doctrine Compliance Tab */}
                 <Link 
                   href="/doctrine"
