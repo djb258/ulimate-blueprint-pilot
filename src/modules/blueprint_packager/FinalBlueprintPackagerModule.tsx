@@ -2,6 +2,16 @@ import React, { useState } from 'react';
 import { validateModuleData, schemaRegistry } from '../../lib/schemas';
 import { assembleFinalBlueprint, saveFinalBlueprint, loadModuleOutputs } from './blueprintPackagerUtils';
 
+interface ModuleOutput {
+  [key: string]: unknown;
+}
+
+interface ValidationStatus {
+  present: boolean;
+  valid: boolean;
+  errors: string[];
+}
+
 const REQUIRED_MODULES = [
   'commander_intent',
   'ping_pong_refinement',
@@ -10,11 +20,11 @@ const REQUIRED_MODULES = [
   'data_sources',
   'solution_design',
   'security',
-];
+] as const;
 
 export default function FinalBlueprintPackagerModule() {
-  const [moduleOutputs, setModuleOutputs] = useState<any>({});
-  const [validationStatus, setValidationStatus] = useState<{ [key: string]: { present: boolean; valid: boolean; errors: string[] } }>({});
+  const [moduleOutputs, setModuleOutputs] = useState<Record<string, ModuleOutput>>({});
+  const [validationStatus, setValidationStatus] = useState<{ [key: string]: ValidationStatus }>({});
   const [version, setVersion] = useState('');
   const [commanderSignoff, setCommanderSignoff] = useState('');
   const [outputPath, setOutputPath] = useState<string | null>(null);
@@ -24,10 +34,10 @@ export default function FinalBlueprintPackagerModule() {
   const handleLoadModules = () => {
     const outputs = loadModuleOutputs();
     setModuleOutputs(outputs);
-    const status: { [key: string]: { present: boolean; valid: boolean; errors: string[] } } = {};
+    const status: { [key: string]: ValidationStatus } = {};
     for (const mod of REQUIRED_MODULES) {
       const data = outputs[mod];
-      let present = !!data;
+      const present = !!data;
       let valid = false;
       let errors: string[] = [];
       if (present) {
@@ -70,7 +80,7 @@ export default function FinalBlueprintPackagerModule() {
     });
     const result = saveFinalBlueprint(blueprint);
     if (result.success) {
-      setOutputPath(result.filePath);
+      setOutputPath(result.filePath || null);
     } else {
       setPackagingError(result.error || 'Unknown error');
     }

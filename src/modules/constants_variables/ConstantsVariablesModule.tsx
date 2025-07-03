@@ -311,7 +311,7 @@ export default function ConstantsVariablesModule({
         {payload.constants.length === 0 ? (
           <div className="text-center py-8 text-gray-500">
             <div className="text-4xl mb-2">🔧</div>
-            <p>No constants defined yet. Click "Add Constant" to get started.</p>
+            <p>No constants defined yet. Click &quot;Add Constant&quot; to get started.</p>
           </div>
         ) : (
           <div className="space-y-4">
@@ -342,7 +342,7 @@ export default function ConstantsVariablesModule({
         {payload.variables.length === 0 ? (
           <div className="text-center py-8 text-gray-500">
             <div className="text-4xl mb-2">📊</div>
-            <p>No variables defined yet. Click "Add Variable" to get started.</p>
+            <p>No variables defined yet. Click &quot;Add Variable&quot; to get started.</p>
           </div>
         ) : (
           <div className="space-y-4">

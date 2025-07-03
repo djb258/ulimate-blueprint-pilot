@@ -625,6 +625,16 @@ export interface SecurityAuditLog {
 }
 
 // Commander Intent Module Types
+export interface FileAttachment {
+  id: string;
+  filename: string;
+  location: string;
+  description?: string;
+  file_type?: string;
+  size?: string;
+  last_modified?: string;
+}
+
 export interface CommanderIntent {
   id: string;
   intent: string;
@@ -633,6 +643,7 @@ export interface CommanderIntent {
   constraints: string[];
   success_criteria: string[];
   commander_notes: string;
+  attachments: FileAttachment[];
 }
 
 export interface CommanderIntentPayload {

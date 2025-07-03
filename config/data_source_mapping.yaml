@@ -1,0 +1,76 @@
+---
+blueprint_id: example_blueprint
+doctrine_reference: nuclear_doctrine_v1.2
+version: v1.0.0
+data_sources:
+  user_input_start_description:
+    source_type: "Commander runtime input"
+    source_id: "form_input"
+    acronym: "SPVPET"
+    validation: "string, non-empty"
+    failover: "Prompt user for input again"
+    audit: "Declared by commander, 2025-07-03, component: Market filter"
+  user_input_target_x:
+    source_type: "Commander runtime input"
+    source_id: "form_input"
+    acronym: "SPVPET"
+    validation: "string, non-empty"
+    failover: "Prompt user for input again"
+    audit: "Declared by commander, 2025-07-03, component: Zip scoring"
+  some_neon_input:
+    source_type: "Neon DB"
+    source_id: "neon_table_xyz"
+    acronym: "STAMPED"
+    table: "neon_table_xyz"
+    schema: "public"
+    credentials: "use_neon_service_account"
+    validation: "integer, > 0"
+    failover: "Use default value: 1"
+    audit: "Declared by commander, 2025-07-03, component: Data bridge"
+    requires_commander_approval: true
+    nuclear_doctrine_compliant: true
+  api_configuration:
+    source_type: "API"
+    source_id: "https://api.example.com/config"
+    acronym: "SPVPET"
+    validation: "JSON schema validation"
+    failover: "Use cached configuration"
+    audit: "Declared by commander, 2025-07-03, component: Market filter"
+  firebase_user_data:
+    source_type: "Firebase"
+    source_id: "users_collection"
+    acronym: "STACKED"
+    table: "users"
+    schema: "firebase"
+    credentials: "use_firebase_service_account"
+    validation: "user object schema validation"
+    failover: "Error out"
+    audit: "Declared by commander, 2025-07-03, component: Data bridge"
+    requires_commander_approval: true
+    nuclear_doctrine_compliant: true
+  environment_config:
+    source_type: "Environment variable"
+    source_id: "APP_ENVIRONMENT"
+    acronym: "N/A"
+    validation: "string, one of: development, staging, production"
+    failover: "Use default: development"
+    audit: "Declared by commander, 2025-07-03, component: System"
+metadata:
+  created_at: "2025-07-03T10:00:00.000Z"
+  updated_at: "2025-07-03T10:00:00.000Z"
+  created_by: "Commander Smith"
+  commander_approval:
+    commander: "Commander Smith"
+    timestamp: "2025-01-03T10:00:00Z"
+    signature: "sig_approved_v1.0.0"
+validation:
+  all_mappings_have_sources: true
+  database_mappings_compliant: true
+  required_fields_populated: true
+  ready_for_save: true
+audit: "Declared by commander on 2025-01-03 for blueprint_v1.0.0"
+audit_log:
+  - timestamp: "2025-07-03T10:00:00.000Z"
+    action: "example_generated"
+    user: "Commander Smith"
+    details: "Generated example data source mapping configuration" 

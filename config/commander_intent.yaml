@@ -1,0 +1,81 @@
+---
+# Commander Intent Configuration
+# This file defines the commander's intent and target X for the blueprint
+
+blueprint_id: "insurance_claims_automation_v1"
+doctrine_reference: "nuclear_doctrine_v1.2"
+version: "1.0.0"
+
+commander_intent:
+  id: "intent-1"
+  intent: "We are building a modular automation system for insurance claims processing that integrates with existing Neon DB infrastructure."
+  target_x: "Fully automated, audit-compliant claims processing pipeline that reduces manual processing time by 80% while maintaining 99.9% accuracy."
+  notes: "Must integrate with existing Neon DB; no external tools without approval; requires real-time processing capabilities."
+  constraints:
+    - "Integrate with existing Neon DB infrastructure"
+    - "No external tools without commander approval"
+    - "Must maintain audit compliance"
+    - "Real-time processing required"
+  success_criteria:
+    - "Claims processed automatically within 5 minutes"
+    - "Audit compliance maintained at 100%"
+    - "Manual processing time reduced by 80%"
+    - "99.9% accuracy rate achieved"
+  commander_notes: "This is a high-priority blueprint for Q3. Focus on reliability and compliance over speed."
+  
+  # External File References
+  # These files are referenced but not stored by the app
+  attachments:
+    - filename: "zip_code_data.csv"
+      location: "Google Drive /Blueprint Inputs/zip_code_data.csv"
+      description: "ZIP code mapping data for claims processing and location validation"
+      file_type: "CSV"
+      size: "2.5 MB"
+      last_modified: "2024-01-15"
+    
+    - filename: "requirements.pdf"
+      location: "https://drive.google.com/some-shared-link"
+      description: "Detailed requirements document with business rules and compliance guidelines"
+      file_type: "PDF"
+      size: "1.2 MB"
+      last_modified: "2024-01-10"
+    
+    - filename: "api_specs.json"
+      location: "Google Drive /Blueprint Inputs/api_specs.json"
+      description: "API specifications for external insurance data providers"
+      file_type: "JSON"
+      size: "500 KB"
+      last_modified: "2024-01-12"
+
+metadata:
+  created_at: "2024-01-20T10:30:00Z"
+  updated_at: "2024-01-20T10:30:00Z"
+  created_by: "commander@blueprint.com"
+  version: "1.0.0"
+  build_version: "v1.2.3"
+
+validation:
+  intent_defined: true
+  target_x_defined: true
+  doctrine_referenced: true
+  commander_signed_off: true
+  ready_for_save: true
+
+audit_log:
+  - timestamp: "2024-01-20T10:30:00Z"
+    action: "commander_intent_created"
+    user: "commander@blueprint.com"
+    details: "Initial commander intent defined"
+  
+  - timestamp: "2024-01-20T10:35:00Z"
+    action: "attachments_added"
+    user: "commander@blueprint.com"
+    details: "Added 3 external file references"
+    field_updated: "attachments"
+  
+  - timestamp: "2024-01-20T10:40:00Z"
+    action: "commander_signed_off"
+    user: "commander@blueprint.com"
+    details: "Commander approved intent and target X"
+
+audit: "Declared by commander on 2025-07-03 for blueprint_v1.0.0" 

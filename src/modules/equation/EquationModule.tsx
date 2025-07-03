@@ -275,7 +275,7 @@ export default function EquationModule({
         {equation.equation.components.length === 0 ? (
           <div className="text-center py-8 text-gray-500">
             <div className="text-4xl mb-2">🧩</div>
-            <p>No components defined yet. Click "Add Component" to get started.</p>
+            <p>No components defined yet. Click &quot;Add Component&quot; to get started.</p>
           </div>
         ) : (
           <div className="space-y-4">

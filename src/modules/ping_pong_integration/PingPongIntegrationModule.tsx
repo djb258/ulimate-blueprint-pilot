@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { PingPongIntegrationPayload, PingPongStatus } from '../../types';
+import { PingPongIntegrationPayload } from '../../types';
 import { DOCTRINE_VERSIONS } from '../../lib/constants';
 import { savePingPongConfig, generateExamplePingPongConfig } from './pingPongUtils';
 

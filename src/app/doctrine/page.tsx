@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import DoctrineCompliance from '../../components/DoctrineCompliance';
+import DoctrineCompliance from '@/components/DoctrineCompliance';
 
 export default function DoctrinePage() {
   return (
@@ -60,7 +60,7 @@ export default function DoctrinePage() {
             <div>
               <h3 className="font-semibold text-gray-900 mb-2">Barton Doctrine (1960)</h3>
               <p>
-                R.S. Barton's foundational principles emphasizing full automation, 
+                R.S. Barton&apos;s foundational principles emphasizing full automation, 
                 high-level programming languages, machine-controlled operations, 
                 and stack-based architectures for efficient computation.
               </p>

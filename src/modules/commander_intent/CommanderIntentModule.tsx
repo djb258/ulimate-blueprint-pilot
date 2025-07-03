@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { CommanderIntentPayload, CommanderIntent } from '../../types';
+import { CommanderIntentPayload, CommanderIntent, FileAttachment } from '../../types';
 import { DOCTRINE_VERSIONS } from '../../lib/constants';
 import { v4 as uuidv4 } from 'uuid';
 import { saveCommanderIntentConfig, generateExampleCommanderIntent } from './commanderIntentUtils';
@@ -32,7 +32,8 @@ export default function CommanderIntentModule({
         notes: '',
         constraints: [],
         success_criteria: [],
-        commander_notes: ''
+        commander_notes: '',
+        attachments: []
       },
       metadata: {
         created_at: new Date().toISOString(),
@@ -89,6 +90,79 @@ export default function CommanderIntentModule({
           user,
           details: `Updated ${field}`,
           field_updated: field
+        }
+      ]
+    }));
+  };
+
+  const addAttachment = () => {
+    const newAttachment: FileAttachment = {
+      id: uuidv4(),
+      filename: '',
+      location: '',
+      description: '',
+      file_type: '',
+      size: '',
+      last_modified: ''
+    };
+
+    setPayload(prev => ({
+      ...prev,
+      commander_intent: {
+        ...prev.commander_intent,
+        attachments: [...prev.commander_intent.attachments, newAttachment]
+      },
+      audit_log: [
+        ...prev.audit_log,
+        {
+          timestamp: new Date().toISOString(),
+          action: 'attachment_added',
+          user,
+          details: 'Added new file attachment',
+          field_updated: 'attachments'
+        }
+      ]
+    }));
+  };
+
+  const updateAttachment = (id: string, updates: Partial<FileAttachment>) => {
+    setPayload(prev => ({
+      ...prev,
+      commander_intent: {
+        ...prev.commander_intent,
+        attachments: prev.commander_intent.attachments.map(attachment =>
+          attachment.id === id ? { ...attachment, ...updates } : attachment
+        )
+      },
+      audit_log: [
+        ...prev.audit_log,
+        {
+          timestamp: new Date().toISOString(),
+          action: 'attachment_updated',
+          user,
+          details: `Updated attachment: ${updates.filename || 'attachment'}`,
+          field_updated: 'attachments'
+        }
+      ]
+    }));
+  };
+
+  const removeAttachment = (id: string) => {
+    const attachment = payload.commander_intent.attachments.find(a => a.id === id);
+    setPayload(prev => ({
+      ...prev,
+      commander_intent: {
+        ...prev.commander_intent,
+        attachments: prev.commander_intent.attachments.filter(a => a.id !== id)
+      },
+      audit_log: [
+        ...prev.audit_log,
+        {
+          timestamp: new Date().toISOString(),
+          action: 'attachment_removed',
+          user,
+          details: `Removed attachment: ${attachment?.filename || 'attachment'}`,
+          field_updated: 'attachments'
         }
       ]
     }));
@@ -197,7 +271,9 @@ export default function CommanderIntentModule({
               <option key={key} value={key}>{doctrine.label}</option>
             ))}
           </select>
-          <p className="text-xs text-gray-600 mt-1">{DOCTRINE_VERSIONS[payload.doctrine_reference]?.description}</p>
+          <p className="text-xs text-gray-600 mt-1">
+            {DOCTRINE_VERSIONS[payload.doctrine_reference as keyof typeof DOCTRINE_VERSIONS]?.description}
+          </p>
         </div>
         <div className="mt-6">
           <label className="block text-sm font-medium text-gray-700 mb-2">Commander Notes</label>
@@ -209,6 +285,118 @@ export default function CommanderIntentModule({
             rows={2}
           />
         </div>
+
+        {/* File Attachments Section */}
+        <div className="mt-6">
+          <div className="flex items-center justify-between mb-4">
+            <label className="block text-sm font-medium text-gray-700">External File References</label>
+            <button
+              onClick={addAttachment}
+              className="px-3 py-1 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors text-sm"
+            >
+              + Add File Reference
+            </button>
+          </div>
+          <p className="text-xs text-gray-600 mb-4">
+            Declare external files that will be referenced in this blueprint. The app does not upload or store these files.
+          </p>
+          
+          {payload.commander_intent.attachments.length === 0 ? (
+            <div className="text-center py-8 border-2 border-dashed border-gray-300 rounded-md">
+              <p className="text-gray-500">No file references declared yet</p>
+              <p className="text-xs text-gray-400 mt-1">Click &quot;Add File Reference&quot; to declare external files</p>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {payload.commander_intent.attachments.map((attachment, index) => (
+                <div key={attachment.id} className="border border-gray-200 rounded-md p-4 bg-gray-50">
+                  <div className="flex items-center justify-between mb-3">
+                    <h4 className="text-sm font-medium text-gray-900">File Reference #{index + 1}</h4>
+                    <button
+                      onClick={() => removeAttachment(attachment.id)}
+                      className="text-red-600 hover:text-red-800 text-sm"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-medium text-gray-700 mb-1">Filename <span className="text-red-500">*</span></label>
+                      <input
+                        type="text"
+                        value={attachment.filename}
+                        onChange={e => updateAttachment(attachment.id, { filename: e.target.value })}
+                        placeholder="e.g., zip_code_data.csv"
+                        className="w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+                        required
+                      />
+                    </div>
+                    
+                    <div>
+                      <label className="block text-xs font-medium text-gray-700 mb-1">File Type</label>
+                      <input
+                        type="text"
+                        value={attachment.file_type || ''}
+                        onChange={e => updateAttachment(attachment.id, { file_type: e.target.value })}
+                        placeholder="e.g., CSV, PDF, JSON"
+                        className="w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+                      />
+                    </div>
+                  </div>
+                  
+                  <div className="mt-3">
+                    <label className="block text-xs font-medium text-gray-700 mb-1">Location <span className="text-red-500">*</span></label>
+                    <input
+                      type="text"
+                      value={attachment.location}
+                      onChange={e => updateAttachment(attachment.id, { location: e.target.value })}
+                      placeholder='e.g., Google Drive /Blueprint Inputs/zip_code_data.csv or https://drive.google.com/some-shared-link'
+                      className="w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+                      required
+                    />
+                  </div>
+                  
+                  <div className="mt-3">
+                    <label className="block text-xs font-medium text-gray-700 mb-1">Description</label>
+                    <textarea
+                      value={attachment.description || ''}
+                      onChange={e => updateAttachment(attachment.id, { description: e.target.value })}
+                      placeholder="Brief description of this file's purpose..."
+                      className="w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 resize-none"
+                      rows={2}
+                    />
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
+                    <div>
+                      <label className="block text-xs font-medium text-gray-700 mb-1">Size</label>
+                      <input
+                        type="text"
+                        value={attachment.size || ''}
+                        onChange={e => updateAttachment(attachment.id, { size: e.target.value })}
+                        placeholder="e.g., 2.5 MB"
+                        className="w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+                      />
+                    </div>
+                    
+                    <div>
+                      <label className="block text-xs font-medium text-gray-700 mb-1">Last Modified</label>
+                      <input
+                        type="text"
+                        value={attachment.last_modified || ''}
+                        onChange={e => updateAttachment(attachment.id, { last_modified: e.target.value })}
+                        placeholder="e.g., 2024-01-15"
+                        className="w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+                      />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
         <div className="mt-6">
           <label className="block text-sm font-medium text-gray-700 mb-2">Audit Tag</label>
           <input

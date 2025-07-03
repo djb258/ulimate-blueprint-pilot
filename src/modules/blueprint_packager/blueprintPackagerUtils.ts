@@ -1,7 +1,18 @@
-import yaml from 'js-yaml';
+// Types for module outputs
+interface ModuleOutput {
+  [key: string]: unknown;
+}
+
+interface FinalBlueprint {
+  blueprint_id: string;
+  version: string;
+  doctrine_reference: string;
+  commander_signoff: string;
+  modules: Record<string, ModuleOutput>;
+}
 
 // Load outputs from all modules (stub)
-export function loadModuleOutputs(): Record<string, any> {
+export function loadModuleOutputs(): Record<string, ModuleOutput> {
   // TODO: Implement loading from config files or state
   return {
     commander_intent: {},
@@ -16,14 +27,14 @@ export function loadModuleOutputs(): Record<string, any> {
 
 // Assemble final blueprint object (stub)
 export function assembleFinalBlueprint({ moduleOutputs, version, commanderSignoff }: {
-  moduleOutputs: Record<string, any>;
+  moduleOutputs: Record<string, ModuleOutput>;
   version: string;
   commanderSignoff: string;
-}): Record<string, any> {
+}): FinalBlueprint {
   return {
-    blueprint_id: moduleOutputs.commander_intent?.blueprint_id || 'example_blueprint',
+    blueprint_id: (moduleOutputs.commander_intent as { blueprint_id?: string })?.blueprint_id || 'example_blueprint',
     version,
-    doctrine_reference: moduleOutputs.commander_intent?.doctrine_reference || 'nuclear_doctrine_v1.2',
+    doctrine_reference: (moduleOutputs.commander_intent as { doctrine_reference?: string })?.doctrine_reference || 'nuclear_doctrine_v1.2',
     commander_signoff: commanderSignoff,
     modules: {
       commander_intent: moduleOutputs.commander_intent,
@@ -38,7 +49,7 @@ export function assembleFinalBlueprint({ moduleOutputs, version, commanderSignof
 }
 
 // Save final blueprint as YAML/JSON (stub)
-export function saveFinalBlueprint(blueprint: Record<string, any>): { success: boolean; filePath?: string; error?: string } {
+export function saveFinalBlueprint(blueprint: FinalBlueprint): { success: boolean; filePath?: string; error?: string } {
   // TODO: Implement file save logic
   const version = blueprint.version || 'v1.0.0';
   const filePath = `/blueprints/final_blueprint_${version}.yaml`;

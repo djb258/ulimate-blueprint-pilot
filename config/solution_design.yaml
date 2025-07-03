@@ -1,0 +1,64 @@
+---
+blueprint_id: example_blueprint
+doctrine_reference: nuclear_doctrine_v1.2
+version: v1.0.0
+target_x: "Automated market analysis and recommendation system"
+equation_components:
+  target_x: "Automated market analysis and recommendation system"
+  components:
+    - name: "Market filter"
+      tool: "Neon"
+      notes: "LLM suggested Neon; commander approved"
+      llm_recommendation: "LLM suggested Neon for its serverless Postgres capabilities and ease of integration with the existing stack."
+      external_tool_proposal: ""
+      approval_status: "not_required"
+      llm_suggestions: ["Consider Neon for its serverless architecture", "Neon integrates well with Vercel deployment"]
+      constraints: ["Must be serverless", "Must support real-time data updates"]
+    - name: "Bridge"
+      tool: "Make.com"
+      notes: "LLM suggested Make.com bridge for Mindpal-Cursor integration"
+      llm_recommendation: "LLM recommended Make.com for its powerful automation capabilities and ability to connect multiple data sources."
+      external_tool_proposal: ""
+      approval_status: "not_required"
+      llm_suggestions: ["Make.com excels at data transformation", "Excellent integration with Mindpal and Cursor"]
+      constraints: ["Must support webhook triggers", "Must handle JSON data transformation"]
+    - name: "AI analysis engine"
+      tool: "Mindpal"
+      notes: "Mindpal selected for AI analysis. Provides excellent market insights."
+      llm_recommendation: "LLM recommended Mindpal for its advanced AI capabilities and ability to process market data intelligently."
+      external_tool_proposal: ""
+      approval_status: "not_required"
+      llm_suggestions: ["Mindpal has excellent market analysis capabilities", "Can provide real-time insights"]
+      constraints: ["Must process data in real-time", "Must provide actionable insights"]
+    - name: "User interface"
+      tool: "Next.js"
+      notes: "Next.js selected for the frontend. Provides excellent performance."
+      llm_recommendation: "LLM recommended Next.js for its excellent React framework capabilities and seamless integration."
+      external_tool_proposal: ""
+      approval_status: "not_required"
+      llm_suggestions: ["Next.js provides excellent performance", "Great developer experience"]
+      constraints: ["Must be responsive and mobile-friendly", "Must support real-time data updates"]
+    - name: "Custom analytics API"
+      tool: "Not selected"
+      notes: "Custom API proposed for advanced analytics. Requires commander approval."
+      llm_recommendation: "LLM suggested a custom analytics API for advanced market analysis algorithms."
+      external_tool_proposal: "Custom Python FastAPI service for advanced analytics"
+      approval_status: "pending"
+      llm_suggestions: ["Custom API can provide unique analytics capabilities", "Python FastAPI offers excellent performance"]
+      constraints: ["Must be developed in-house", "Requires additional development time"]
+metadata:
+  created_at: "2025-07-03T11:00:00.000Z"
+  updated_at: "2025-07-03T11:00:00.000Z"
+  created_by: "commander@example.com"
+  version: "1.0.0"
+  llm_used: "Claude-3.5-Sonnet"
+validation:
+  all_components_have_tools: true
+  external_tools_approved: false
+  equation_balanced: true
+  ready_for_save: false
+audit_log:
+  - timestamp: "2025-07-03T11:00:00.000Z"
+    action: "example_generated"
+    user: "commander@example.com"
+    details: "Generated example solution design configuration" 

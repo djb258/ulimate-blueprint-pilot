@@ -27,7 +27,7 @@ export interface AuditEntry {
   timestamp: string;
   action: 'CREATE' | 'UPDATE' | 'DELETE' | 'VALIDATE';
   agent: string;
-  changes: Record<string, any>;
+  changes: Record<string, unknown>;
   compliance: boolean;
 }
 
@@ -165,7 +165,6 @@ class DoctrineStore {
     const issues: string[] = [];
     
     let neonCompliant = 0;
-    let stampedCompliant = 0;
     let bartonCompliant = 0;
 
     doctrines.forEach(doctrine => {

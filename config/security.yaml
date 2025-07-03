@@ -1,0 +1,95 @@
+---
+blueprint_id: example_blueprint
+security:
+  components:
+    - name: "Market filter"
+      access: "commander_only"
+      credentials: "neon_service_account"
+      permission_rules: ["Only commander can access market data", "Service account must be authenticated", "All access must be logged"]
+      data_flow_security: ["Data must be encrypted in transit", "Sensitive data must be masked in logs", "Access attempts must be rate limited"]
+      nuclear_doctrine_compliant: true
+      commander_notes: "Market filter requires maximum security due to sensitive financial data."
+    - name: "Data bridge"
+      access: "service_account"
+      credentials: "api_key"
+      permission_rules: ["Service account authentication required", "API key must be rotated monthly", "Access limited to specific IP ranges"]
+      data_flow_security: ["All data transfers must be encrypted", "Data validation required before processing", "Audit trail for all data movements"]
+      nuclear_doctrine_compliant: true
+      commander_notes: "Data bridge handles sensitive data transformation and requires strict access controls."
+    - name: "AI analysis engine"
+      access: "authenticated_users"
+      credentials: "jwt_token"
+      permission_rules: ["JWT token validation required", "User must have analysis permissions", "Rate limiting applied per user"]
+      data_flow_security: ["Input data must be sanitized", "AI model outputs must be validated", "User session tracking required"]
+      nuclear_doctrine_compliant: true
+      commander_notes: "AI engine requires user authentication and input validation for security."
+    - name: "User interface"
+      access: "public_read"
+      credentials: "oauth2_token"
+      permission_rules: ["Public read access for dashboard", "OAuth2 required for user actions", "Session timeout after 30 minutes"]
+      data_flow_security: ["HTTPS required for all connections", "CSRF protection enabled", "XSS prevention measures active"]
+      nuclear_doctrine_compliant: true
+      commander_notes: "UI provides public access with OAuth2 authentication for user actions."
+  nuclear_doctrine_version: nuclear_doctrine_v1.2
+  overall_security_level: High
+error_handling:
+  target_table: central_error_table
+  schema:
+    - field: "timestamp"
+      type: "datetime"
+      required: true
+      description: "Timestamp when error occurred"
+    - field: "component"
+      type: "string"
+      required: true
+      description: "Component where error occurred"
+    - field: "error_code"
+      type: "string"
+      required: true
+      description: "Error code identifier"
+    - field: "details"
+      type: "string"
+      required: false
+      description: "Detailed error information"
+    - field: "user_id"
+      type: "string"
+      required: false
+      description: "User ID if error occurred in user context"
+    - field: "severity"
+      type: "string"
+      required: true
+      description: "Error severity level (low, medium, high, critical)"
+    - field: "stack_trace"
+      type: "string"
+      required: false
+      description: "Stack trace for debugging"
+  location: /data/errors/central_error_table
+  nuclear_doctrine_version: nuclear_doctrine_v1.2
+  error_categories: ["authentication", "authorization", "data_validation", "system_error", "network_error"]
+  retention_policy: 30 days
+  commander_notes: "Centralized error handling ensures all errors are captured and analyzed for security threats."
+healing:
+  agent: self_healing_agent_v1
+  doctrine_reference: nuclear_doctrine_v1.2
+  escalation_rules: ["retry_operation", "alert_commander_if_unresolved", "fallback_to_backup"]
+  healing_strategies: ["automatic_retry_with_exponential_backoff", "circuit_breaker_pattern", "graceful_degradation", "health_check_monitoring", "automatic_restart_on_failure"]
+  timeout_settings: 5 minutes
+  nuclear_doctrine_compliant: true
+  commander_notes: "Self-healing agent provides automated recovery with escalation to commander for unresolved issues."
+metadata:
+  created_at: "2025-07-03T11:15:00.000Z"
+  updated_at: "2025-07-03T11:15:00.000Z"
+  created_by: "commander@example.com"
+  version: "1.0.0"
+validation:
+  all_components_secured: true
+  error_handling_defined: true
+  healing_architecture_defined: true
+  nuclear_doctrine_referenced: true
+  commander_signed_off: false
+  ready_for_save: false
+audit_log:
+  - timestamp: "2025-07-03T11:15:00.000Z"
+    action: "example_generated"
+    user: "commander@example.com"
+    details: "Generated example security configuration" 

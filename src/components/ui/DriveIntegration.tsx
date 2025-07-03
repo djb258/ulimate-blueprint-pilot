@@ -15,6 +15,15 @@ interface DriveBlueprint extends Blueprint {
   size: number;
   isShared: boolean;
   owner: string;
+  complexity: 'simple' | 'moderate' | 'complex';
+  metadata: {
+    author: string;
+    version: string;
+    tags: string[];
+    complexity: 'simple' | 'moderate' | 'complex';
+    estimatedTotalTime: number;
+    targetTechnologies: string[];
+  };
 }
 
 export default function DriveIntegration({ 
@@ -26,7 +35,7 @@ export default function DriveIntegration({
   const [isLoading, setIsLoading] = useState(true);
   const [isConnected, setIsConnected] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
-  const [filterStatus, setFilterStatus] = useState<'all' | 'completed' | 'in_progress' | 'draft'>('all');
+  const [filterStatus, setFilterStatus] = useState<'all' | 'approved' | 'in_progress' | 'draft'>('all');
   const [sortBy, setSortBy] = useState<'name' | 'modified' | 'status'>('modified');
 
   // Mock data for demonstration
@@ -41,11 +50,19 @@ export default function DriveIntegration({
         size: 245760,
         isShared: true,
         owner: 'commander@example.com',
-        status: 'completed',
+        status: 'approved',
         phases: [],
         createdAt: new Date('2024-01-10'),
         updatedAt: new Date('2024-01-15'),
-        complexity: 'complex'
+        complexity: 'complex',
+        metadata: {
+          author: 'commander@example.com',
+          version: '1.0.0',
+          tags: ['e-commerce', 'platform'],
+          complexity: 'complex',
+          estimatedTotalTime: 480,
+          targetTechnologies: ['Next.js', 'TypeScript', 'Tailwind CSS']
+        }
       },
       {
         id: '2',
@@ -60,7 +77,15 @@ export default function DriveIntegration({
         phases: [],
         createdAt: new Date('2024-01-12'),
         updatedAt: new Date('2024-01-14'),
-        complexity: 'moderate'
+        complexity: 'moderate',
+        metadata: {
+          author: 'commander@example.com',
+          version: '0.8.0',
+          tags: ['api', 'gateway', 'microservices'],
+          complexity: 'moderate',
+          estimatedTotalTime: 360,
+          targetTechnologies: ['Node.js', 'Express', 'Docker']
+        }
       },
       {
         id: '3',
@@ -75,7 +100,15 @@ export default function DriveIntegration({
         phases: [],
         createdAt: new Date('2024-01-11'),
         updatedAt: new Date('2024-01-13'),
-        complexity: 'simple'
+        complexity: 'simple',
+        metadata: {
+          author: 'commander@example.com',
+          version: '0.5.0',
+          tags: ['data', 'pipeline', 'real-time'],
+          complexity: 'simple',
+          estimatedTotalTime: 240,
+          targetTechnologies: ['Python', 'Apache Kafka', 'Redis']
+        }
       }
     ];
 
@@ -116,7 +149,7 @@ export default function DriveIntegration({
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'completed': return 'bg-green-100 text-green-800';
+      case 'approved': return 'bg-green-100 text-green-800';
       case 'in_progress': return 'bg-blue-100 text-blue-800';
       case 'draft': return 'bg-yellow-100 text-yellow-800';
       default: return 'bg-gray-100 text-gray-800';
@@ -125,7 +158,7 @@ export default function DriveIntegration({
 
   const getStatusText = (status: string) => {
     switch (status) {
-      case 'completed': return 'Complete';
+      case 'approved': return 'Complete';
       case 'in_progress': return 'In Progress';
       case 'draft': return 'Draft';
       default: return 'Unknown';
@@ -203,11 +236,11 @@ export default function DriveIntegration({
           <div>
             <select
               value={filterStatus}
-              onChange={(e) => setFilterStatus(e.target.value as any)}
+              onChange={(e) => setFilterStatus(e.target.value as 'all' | 'approved' | 'in_progress' | 'draft')}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="all">All Status</option>
-              <option value="completed">Completed</option>
+              <option value="approved">Approved</option>
               <option value="in_progress">In Progress</option>
               <option value="draft">Draft</option>
             </select>
@@ -215,7 +248,7 @@ export default function DriveIntegration({
           <div>
             <select
               value={sortBy}
-              onChange={(e) => setSortBy(e.target.value as any)}
+              onChange={(e) => setSortBy(e.target.value as 'name' | 'modified' | 'status')}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="modified">Sort by Modified</option>
@@ -282,10 +315,10 @@ export default function DriveIntegration({
                     onClick={() => onBlueprintSelect?.(blueprint)}
                     className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors"
                   >
-                    {blueprint.status === 'completed' ? 'View' : 'Resume'}
+                    {blueprint.status === 'approved' ? 'View' : 'Resume'}
                   </button>
                   
-                  {blueprint.status === 'completed' && (
+                  {blueprint.status === 'approved' && (
                     <button
                       onClick={() => onBlueprintDownload?.(blueprint)}
                       className="px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-medium hover:bg-green-700 transition-colors"
@@ -310,10 +343,10 @@ export default function DriveIntegration({
                     onClick={() => onBlueprintSelect?.(blueprint)}
                     className="flex-1 px-3 py-2 bg-blue-600 text-white rounded text-sm font-medium hover:bg-blue-700 transition-colors"
                   >
-                    {blueprint.status === 'completed' ? 'View' : 'Resume'}
+                    {blueprint.status === 'approved' ? 'View' : 'Resume'}
                   </button>
                   
-                  {blueprint.status === 'completed' && (
+                  {blueprint.status === 'approved' && (
                     <button
                       onClick={() => onBlueprintDownload?.(blueprint)}
                       className="flex-1 px-3 py-2 bg-green-600 text-white rounded text-sm font-medium hover:bg-green-700 transition-colors"
@@ -343,7 +376,7 @@ export default function DriveIntegration({
               Showing {filteredBlueprints.length} of {blueprints.length} blueprints
             </span>
             <span>
-              {blueprints.filter(b => b.status === 'completed').length} completed
+              {blueprints.filter(b => b.status === 'approved').length} approved
             </span>
           </div>
         </div>

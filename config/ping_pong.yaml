@@ -1,0 +1,8 @@
+---
+blueprint_id: example_blueprint
+doctrine_reference: nuclear_doctrine_v1.2
+ping_pong_refinement:
+  notes: "Refined plan to include Make.com bridge between Mindpal and Cursor."
+  decisions: "Approved Neon DB for market filter; rejected Firebase external dependency."
+  status: complete
+  audit: "Completed by commander on 2025-07-03 for blueprint_v1.0.0" 

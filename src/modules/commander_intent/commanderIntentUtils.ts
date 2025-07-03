@@ -52,7 +52,27 @@ export function generateExampleCommanderIntent(blueprintId: string, user: string
       notes: 'Must integrate with existing Neon DB; no external tools without approval.',
       constraints: ['Integrate with Neon DB', 'No external tools without approval'],
       success_criteria: ['Claims processed automatically', 'Audit compliance met'],
-      commander_notes: 'This is a high-priority blueprint for Q3.'
+      commander_notes: 'This is a high-priority blueprint for Q3.',
+      attachments: [
+        {
+          id: 'attachment-1',
+          filename: 'zip_code_data.csv',
+          location: 'Google Drive /Blueprint Inputs/zip_code_data.csv',
+          description: 'ZIP code mapping data for claims processing',
+          file_type: 'CSV',
+          size: '2.5 MB',
+          last_modified: '2024-01-15'
+        },
+        {
+          id: 'attachment-2',
+          filename: 'requirements.pdf',
+          location: 'https://drive.google.com/some-shared-link',
+          description: 'Detailed requirements document',
+          file_type: 'PDF',
+          size: '1.2 MB',
+          last_modified: '2024-01-10'
+        }
+      ]
     },
     metadata: {
       created_at: new Date().toISOString(),
