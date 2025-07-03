@@ -5,30 +5,30 @@ import type { PlanPhasePayload, PlanPhaseAuditLog } from "../types";
 import LoadingSpinner from "./LoadingSpinner";
 import { useNotificationHelpers } from "./NotificationSystem";
 
-// UI output binding (for validation)
-const PLAN_UI_OUTPUT_SCHEMA = {
-  plan_phase_id: "string",
-  plan_phase_duration: "number",
-  objective: {
-    data_domain: "string",
-    target_output: "string",
-  },
-  constraints: {
-    input_format: "string",
-    output_target: "string",
-  },
-  assumptions: {
-    items: "string[]",
-    reviewed: "boolean",
-    confirmed: "boolean",
-    revisions: "string[]?",
-  },
-  input_references: "array",
-  validation_criteria: "array",
-  inference_flags: "array",
-  promotion_conditions: "object",
-  audit_log: "array",
-};
+// UI output binding (for validation) - unused but kept for reference
+// const PLAN_UI_OUTPUT_SCHEMA = {
+//   plan_phase_id: "string",
+//   plan_phase_duration: "number",
+//   objective: {
+//     data_domain: "string",
+//     target_output: "string",
+//   },
+//   constraints: {
+//     input_format: "string",
+//     output_target: "string",
+//   },
+//   assumptions: {
+//     items: "string[]",
+//     reviewed: "boolean",
+//     confirmed: "boolean",
+//     revisions: "string[]?",
+//   },
+//   input_references: "array",
+//   validation_criteria: "array",
+//   inference_flags: "array",
+//   promotion_conditions: "object",
+//   audit_log: "array",
+// };
 
 function getInitialPayload(user: string): PlanPhasePayload {
   return {
@@ -325,7 +325,7 @@ const PlanPhaseModule: React.FC<PlanPhaseModuleProps> = ({ user, onPromoteToPhas
                 value={ref.type}
                 onChange={e => {
                   const refs = [...payload.input_references];
-                  refs[idx].type = e.target.value as any;
+                  refs[idx].type = e.target.value as 'spec' | 'repo' | 'compliance_doc' | 'other';
                   updatePayload({ input_references: refs });
                 }}
                 className="px-2 py-1 border rounded"

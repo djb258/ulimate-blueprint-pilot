@@ -5,6 +5,13 @@ import { Phase, PhaseStatus } from '../types';
 import { STATUS_CONFIG, PHASE_CONFIG } from '../lib/constants';
 import { formatDuration, formatDate } from '../lib/utils';
 import PlanPhaseModule from './PlanPhaseModule';
+import EquationModule from '../modules/equation/EquationModule';
+import ConstantsVariablesModule from '../modules/constants_variables/ConstantsVariablesModule';
+import DataSourceMappingModule from '../modules/data_source_mapping/DataSourceMappingModule';
+import SolutionDesignModule from '../modules/solution_design/SolutionDesignModule';
+import SecurityModule from '../modules/security/SecurityModule';
+import CommanderIntentModule from '../modules/commander_intent/CommanderIntentModule';
+import PingPongIntegrationModule from '../modules/ping_pong_integration/PingPongIntegrationModule';
 
 interface PhaseSectionProps {
   phase: Phase;
@@ -80,6 +87,71 @@ export default function PhaseSection({ phase, onStatusChange, canStart }: PhaseS
           // Placeholder: handle promotion to phase 2
           console.log('Promote to Phase 2 with PLAN payload:', payload);
         }}
+      />
+    );
+  }
+
+  if (phase.name === 'EQUATION') {
+    return (
+      <EquationModule
+        blueprintId={phase.id}
+        user="user@example.com"
+      />
+    );
+  }
+
+  if (phase.name === 'CONSTANTS + VARIABLES') {
+    return (
+      <ConstantsVariablesModule
+        blueprintId={phase.id}
+        user="user@example.com"
+      />
+    );
+  }
+
+  if (phase.name === 'DATA SOURCE MAPPING') {
+    return (
+      <DataSourceMappingModule
+        blueprintId={phase.id}
+        user="user@example.com"
+      />
+    );
+  }
+
+  if (phase.name === 'SOLUTION DESIGN') {
+    return (
+      <SolutionDesignModule
+        blueprintId={phase.id}
+        user="user@example.com"
+      />
+    );
+  }
+
+  if (phase.name === 'SECURITY') {
+    return (
+      <SecurityModule
+        blueprintId={phase.id}
+        user="user@example.com"
+      />
+    );
+  }
+
+  if (phase.name === 'COMMANDER INTENT') {
+    return (
+      <CommanderIntentModule
+        blueprintId={phase.id}
+        user="user@example.com"
+        buildVersion="blueprint_v1.0.0"
+      />
+    );
+  }
+
+  if (phase.name === 'PING-PONG INTEGRATION') {
+    return (
+      <PingPongIntegrationModule
+        blueprintId={phase.id}
+        user="user@example.com"
+        buildVersion="blueprint_v1.0.0"
       />
     );
   }

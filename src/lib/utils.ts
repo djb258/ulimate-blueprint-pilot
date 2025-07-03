@@ -358,12 +358,12 @@ export function deepMerge<T extends object>(target: T, source: Partial<T>): T {
       
       if (typeof sourceValue === 'object' && sourceValue !== null && !Array.isArray(sourceValue)) {
         if (typeof targetValue === 'object' && targetValue !== null && !Array.isArray(targetValue)) {
-          result[key] = deepMerge(targetValue, sourceValue);
+          result[key] = deepMerge(targetValue, sourceValue as object);
         } else {
-          result[key] = deepClone(sourceValue);
+          result[key] = deepClone(sourceValue) as T[Extract<keyof T, string>];
         }
       } else {
-        result[key] = sourceValue;
+        result[key] = sourceValue as T[Extract<keyof T, string>];
       }
     }
   }
