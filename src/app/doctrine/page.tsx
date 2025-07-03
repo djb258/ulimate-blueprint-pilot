@@ -12,6 +12,7 @@ export default function DoctrinePage() {
               <h1 className="text-3xl font-bold text-gray-900">
                 Ultimate Blueprint Pilot
               </h1>
+              {/* eslint-disable-next-line react/no-unescaped-entities */}
               <p className="text-gray-600 mb-4">
                 The Nuclear Doctrine provides the foundational principles and guidelines for building robust, scalable, and maintainable systems. It&apos;s designed to ensure consistency and reliability across all blueprint implementations.
               </p>

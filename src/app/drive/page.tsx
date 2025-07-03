@@ -1,3 +1,4 @@
+'use client';
 import DriveIntegration from '../../components/ui/DriveIntegration';
 import MobileNavigation from '../../components/ui/MobileNavigation';
 import { Blueprint } from '../../types';

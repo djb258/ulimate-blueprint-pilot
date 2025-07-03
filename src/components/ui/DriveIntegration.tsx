@@ -229,14 +229,14 @@ export default function DriveIntegration({
               type="text"
               placeholder="Search blueprints..."
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
           <div>
             <select
               value={filterStatus}
-              onChange={(e) => setFilterStatus(e.target.value as 'all' | 'approved' | 'in_progress' | 'draft')}
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setFilterStatus(e.target.value as 'all' | 'approved' | 'in_progress' | 'draft')}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="all">All Status</option>
@@ -248,7 +248,7 @@ export default function DriveIntegration({
           <div>
             <select
               value={sortBy}
-              onChange={(e) => setSortBy(e.target.value as 'name' | 'modified' | 'status')}
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSortBy(e.target.value as 'name' | 'modified' | 'status')}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="modified">Sort by Modified</option>
