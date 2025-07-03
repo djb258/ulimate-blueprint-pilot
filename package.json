@@ -1,6 +1,7 @@
 {
   "name": "ultimate-blueprint-pilot",
   "version": "0.1.0",
+  "description": "Cockpit for designing micro-engineered blueprints with enhanced Commander Intent Module",
   "private": true,
   "repository": {
     "type": "git",
