@@ -3,6 +3,26 @@ blueprint_id: example_blueprint
 doctrine_reference: nuclear_doctrine_v1.2
 version: v1.0.0
 target_x: "Automated market analysis and recommendation system"
+
+# Build Manifest Requirements
+build_manifest_required: true
+build_manifest_spec:
+  required_fields:
+    - build_version
+    - build_date
+    - stack
+    - modules
+    - external_dependencies
+    - doctrine_reference
+    - design_notes
+    - build_agent
+  format: "YAML"
+  validation_rules:
+    - "No build complete without manifest"
+    - "No build approved without commander sign-off on manifest"
+    - "Manifest must be human- and machine-readable YAML/JSON"
+    - "All required fields must be present and valid"
+
 equation_components:
   target_x: "Automated market analysis and recommendation system"
   components:
