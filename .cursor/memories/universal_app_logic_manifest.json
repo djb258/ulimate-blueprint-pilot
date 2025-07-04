@@ -1,0 +1,138 @@
+{
+  "process_id": "universal_app_logic_manifest",
+  "goal": "Preserve and apply universal app logic exactly as specified without reinterpretation.",
+  "constraints": [
+    "Do not modify or inject logic beyond manifest",
+    "Embed manifest reference inline in code",
+    "Ensure output is model-neutral and portable"
+  ],
+  "manifest_spec": {
+    "required_fields": [
+      "master_file_strategy",
+      "table_merge_plan",
+      "constants_variables_map",
+      "agent_interaction",
+      "cursor_scope",
+      "sustainment_plan",
+      "audit_map",
+      "build_agent",
+      "manifest_version"
+    ],
+    "master_file_strategy": {
+      "primary_files": ["src/app/page.tsx", "src/app/layout.tsx", "package.json"],
+      "secondary_files": ["src/components/", "src/lib/", "config/"],
+      "merge_strategy": "manifest_guided_merge"
+    },
+    "table_merge_plan": {
+      "source_tables": ["users", "blueprints", "logic_manifests"],
+      "target_tables": ["users", "blueprints", "logic_manifests"],
+      "merge_rules": {
+        "users": "merge_by_email",
+        "blueprints": "merge_by_id",
+        "logic_manifests": "merge_by_version"
+      }
+    },
+    "constants_variables_map": {
+      "global_constants": ["MAX_BLUEPRINT_SIZE", "DEFAULT_TIMEOUT", "MANIFEST_VERSION"],
+      "module_variables": ["currentUser", "blueprintData"],
+      "validation_rules": {
+        "email": ["not_null", "email_format"],
+        "blueprint": ["not_null", "valid_json"],
+        "manifest": ["not_null", "valid_manifest"]
+      }
+    },
+    "agent_interaction": {
+      "allowed_patterns": ["blueprint_generation", "code_generation", "manifest_validation"],
+      "forbidden_operations": ["freelancing", "manifest_modification", "scope_violation"],
+      "interaction_scope": "manifest_defined_only"
+    },
+    "cursor_scope": {
+      "template_usage": ["react_component", "api_endpoint", "database_schema"],
+      "code_generation_rules": ["follow_manifest", "use_templates", "validate_output"],
+      "modification_limits": ["no_manifest_changes", "no_scope_expansion", "no_freelancing"]
+    },
+    "sustainment_plan": {
+      "health_checks": ["manifest_validation_hook", "blueprint_health_check"],
+      "monitoring_hooks": ["generation_monitor", "error_tracker"],
+      "failure_handlers": ["error_handler", "rollback_handler"]
+    },
+    "audit_map": {
+      "required_audits": ["blueprint_generation_audit", "manifest_access_audit"],
+      "audit_fields": {
+        "generation": ["user_id", "blueprint_id", "generation_time", "manifest_version"],
+        "access": ["user_id", "manifest_id", "access_time", "operation"]
+      },
+      "retention_policies": {
+        "generation_audits": "7 years",
+        "access_audits": "3 years",
+        "system_audits": "1 year"
+      }
+    },
+    "build_agent": "Cursor AI Assistant",
+    "manifest_version": "1.0.0"
+  },
+  "enforcement_rules": {
+    "no_build_without_manifest": true,
+    "no_code_beyond_scope": true,
+    "manifest_embedding_required": true,
+    "agent_interaction_limits": true,
+    "audit_trail_mandatory": true
+  },
+  "validation_requirements": {
+    "manifest_presence_check": true,
+    "required_fields_validation": true,
+    "field_content_validation": true,
+    "agent_interaction_validation": true,
+    "audit_compliance_check": true
+  },
+  "file_type_rules": {
+    "typescript": {
+      "include_manifest_header": true,
+      "use_manifest_constants": true,
+      "follow_manifest_patterns": true,
+      "implement_health_hooks": true
+    },
+    "yaml": {
+      "include_manifest_comment": true,
+      "validate_against_schema": true,
+      "include_version_tags": true
+    },
+    "react": {
+      "use_manifest_templates": true,
+      "follow_modification_limits": true,
+      "include_manifest_validation": true
+    },
+    "api": {
+      "use_manifest_templates": true,
+      "implement_audit_requirements": true,
+      "follow_error_handling": true
+    }
+  },
+  "forbidden_operations": [
+    "freelancing_beyond_scope",
+    "manifest_modification_without_approval",
+    "scope_violation_or_expansion",
+    "removal_of_manifest_references",
+    "bypassing_manifest_validation"
+  ],
+  "manifest_embedding_formats": {
+    "typescript": "/* LOGIC MANIFEST EMBEDDED */",
+    "yaml": "# LOGIC MANIFEST EMBEDDED",
+    "json": "/* LOGIC MANIFEST EMBEDDED */",
+    "python": "\"\"\"LOGIC MANIFEST EMBEDDED\"\"\"",
+    "sql": "-- LOGIC MANIFEST EMBEDDED"
+  },
+  "session_persistence": {
+    "memories_enabled": true,
+    "sticky_prompts_enabled": true,
+    "manifest_context_maintained": true,
+    "cross_session_retention": true
+  },
+  "project_context": {
+    "name": "Ultimate Blueprint Pilot",
+    "purpose": "Cockpit for designing micro-engineered blueprints with logic manifest enforcement",
+    "doctrine_reference": "nuclear_doctrine_v1.2",
+    "build_agent": "Cursor AI Assistant",
+    "manifest_version": "1.0.0"
+  }
+} 

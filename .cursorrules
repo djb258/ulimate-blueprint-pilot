@@ -1,4 +1,115 @@
-# Ultimate Blueprint Pilot - Cursor Rules
+# Cursor Rules for Ultimate Blueprint Pilot
+# Universal Logic Manifest Enforcement
+
+## Project Context
+This is the Ultimate Blueprint Pilot - a cockpit for designing micro-engineered blueprints with embedded logic manifests as the authoritative source of truth.
+
+## Core Principles
+- All code generation must consume embedded logic manifests
+- No freelancing beyond manifest specifications
+- All outputs must be modular, portable, and LLM-neutral
+- Version and build agent tags required in all outputs
+
+## Logic Manifest Requirements
+Every file must include or reference the embedded logic manifest with these required fields:
+- master_file_strategy
+- table_merge_plan  
+- constants_variables_map
+- agent_interaction
+- cursor_scope
+- sustainment_plan
+- audit_map
+- build_agent
+- manifest_version
+
+## Code Generation Rules
+1. **Manifest-First**: Always extract and validate logic manifest before generating code
+2. **Scope Enforcement**: Never generate code beyond manifest specifications
+3. **Template Usage**: Use manifest-defined Cursor templates only
+4. **Validation**: Include manifest validation in all generated code
+5. **Audit Trail**: Log all generation activities according to audit requirements
+
+## File Type Specific Rules
+
+### TypeScript/JavaScript Files
+- Include manifest header comment block
+- Use manifest-defined constants and variables
+- Follow manifest agent interaction patterns
+- Implement manifest health hooks
+
+### YAML/JSON Files
+- Include manifest as embedded comment block
+- Validate against manifest schema
+- Include version and build agent tags
+
+### React Components
+- Use manifest-defined React component templates
+- Follow manifest modification limits
+- Include manifest validation in component logic
+
+### API Endpoints
+- Use manifest-defined API endpoint templates
+- Implement manifest audit requirements
+- Follow manifest error handling patterns
+
+## Forbidden Operations
+- Freelancing beyond manifest scope
+- Manifest modification without approval
+- Scope violation or expansion
+- Removal of manifest references
+- Bypassing manifest validation
+
+## Required Manifest Embedding Format
+
+### TypeScript/JavaScript
+```typescript
+/**
+ * LOGIC MANIFEST EMBEDDED
+ * Version: 1.0.0
+ * Build Agent: Cursor AI Assistant
+ * Doctrine Reference: nuclear_doctrine_v1.2
+ * Generated At: 2025-01-03T12:00:00.000Z
+ * 
+ * This output is generated according to the embedded logic manifest.
+ * No modifications should be made beyond the manifest specifications.
+ */
+```
+
+### YAML Files
+```yaml
+# LOGIC MANIFEST EMBEDDED
+# Version: 1.0.0
+# Build Agent: Cursor AI Assistant
+# Doctrine Reference: nuclear_doctrine_v1.2
+# Generated At: 2025-01-03T12:00:00.000Z
+#
+# This output is generated according to the embedded logic manifest.
+# No modifications should be made beyond the manifest specifications.
+```
+
+## Validation Requirements
+- Extract manifest from file before editing
+- Validate manifest integrity
+- Ensure all required fields are present
+- Check agent interaction scope compliance
+- Verify audit trail requirements
+
+## Memory Context
+Store this logic manifest as default context:
+{
+  "process_id": "universal_app_logic_manifest",
+  "goal": "Preserve and apply universal app logic exactly as specified without reinterpretation.",
+  "constraints": [
+    "Do not modify or inject logic beyond manifest",
+    "Embed manifest reference inline in code", 
+    "Ensure output is model-neutral and portable"
+  ]
+}
+
+## Session Persistence
+- Enable Memories feature to retain logic manifest across sessions
+- Store manifest as sticky prompt for all future interactions
+- Maintain manifest context throughout entire development session
 
 ## Project Overview
 This is a Next.js 15.3.4 project for the Ultimate Blueprint Pilot app - a cockpit for designing micro-engineered blueprints.

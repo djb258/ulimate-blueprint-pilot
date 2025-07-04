@@ -1,0 +1,216 @@
+# Logic Manifest Configuration
+# This file defines the authoritative design specifications for code generation
+
+version: "1.0.0"
+buildAgent: "Cursor AI Assistant"
+doctrineReference: "nuclear_doctrine_v1.2"
+generatedAt: "2025-01-03T12:00:00.000Z"
+
+dataTableDesign:
+  tables:
+    - name: "users"
+      description: "User account information"
+      columns:
+        - name: "id"
+          type: "UUID"
+          nullable: false
+          description: "Primary key"
+          validationRules: ["not_null", "unique"]
+        - name: "email"
+          type: "VARCHAR(255)"
+          nullable: false
+          description: "User email address"
+          validationRules: ["not_null", "unique", "email_format"]
+        - name: "created_at"
+          type: "TIMESTAMP"
+          nullable: false
+          defaultValue: "CURRENT_TIMESTAMP"
+          description: "Account creation timestamp"
+          validationRules: ["not_null"]
+      primaryKey: "id"
+      indexes: ["idx_users_email"]
+      constraints:
+        - name: "fk_users_roles"
+          type: "foreign_key"
+          definition: "FOREIGN KEY (role_id) REFERENCES roles(id)"
+    
+    - name: "blueprints"
+      description: "Blueprint specifications"
+      columns:
+        - name: "id"
+          type: "UUID"
+          nullable: false
+          description: "Primary key"
+          validationRules: ["not_null", "unique"]
+        - name: "name"
+          type: "VARCHAR(255)"
+          nullable: false
+          description: "Blueprint name"
+          validationRules: ["not_null"]
+        - name: "manifest"
+          type: "JSONB"
+          nullable: false
+          description: "Embedded logic manifest"
+          validationRules: ["not_null", "valid_json"]
+      primaryKey: "id"
+      indexes: ["idx_blueprints_name"]
+      constraints: []
+  
+  relationships:
+    - "users -> blueprints (one-to-many)"
+    - "blueprints -> logic_manifest (one-to-one)"
+
+joinMappingLogic:
+  mappings:
+    - name: "user_blueprints"
+      sourceTable: "users"
+      targetTable: "blueprints"
+      joinType: "left"
+      conditions:
+        - sourceColumn: "users.id"
+          targetColumn: "blueprints.user_id"
+          operator: "="
+      description: "Join users with their created blueprints"
+  
+  defaultJoins: ["user_blueprints"]
+
+constantsVariables:
+  constants:
+    - name: "MAX_BLUEPRINT_SIZE"
+      value: 1048576
+      type: "number"
+      description: "Maximum blueprint file size in bytes"
+      scope: "global"
+    - name: "DEFAULT_TIMEOUT"
+      value: 30000
+      type: "number"
+      description: "Default API timeout in milliseconds"
+      scope: "global"
+    - name: "MANIFEST_VERSION"
+      value: "1.0.0"
+      type: "string"
+      description: "Current logic manifest version"
+      scope: "global"
+  
+  variables:
+    - name: "currentUser"
+      type: "User"
+      description: "Currently authenticated user"
+      scope: "module"
+      validationRules: ["not_null", "authenticated"]
+    - name: "blueprintData"
+      type: "BlueprintData"
+      description: "Current blueprint data being processed"
+      scope: "function"
+      validationRules: ["valid_blueprint_format"]
+
+agentInteractionPatterns:
+  patterns:
+    - name: "blueprint_generation"
+      description: "Standard blueprint generation pattern"
+      inputSchema:
+        requirements: "string"
+        constraints: "string[]"
+        target_language: "string"
+      outputSchema:
+        blueprint: "BlueprintData"
+        manifest: "LogicManifest"
+        validation_errors: "string[]"
+      allowedOperations: ["generate", "validate", "export"]
+      constraints: ["must_include_manifest", "version_tagged"]
+    
+    - name: "code_generation"
+      description: "Code generation from blueprint pattern"
+      inputSchema:
+        blueprint: "BlueprintData"
+        manifest: "LogicManifest"
+        target_framework: "string"
+      outputSchema:
+        generated_code: "string"
+        dependencies: "string[]"
+        build_instructions: "string"
+      allowedOperations: ["generate", "validate", "build"]
+      constraints: ["follow_manifest", "no_freelancing"]
+  
+  defaultPattern: "blueprint_generation"
+
+cursorTemplates:
+  templates:
+    - name: "react_component"
+      description: "React component template"
+      template: |
+        import React from 'react';
+
+        interface {{componentName}}Props {
+          {{props}}
+        }
+
+        export default function {{componentName}}({ {{props}} }: {{componentName}}Props) {
+          return (
+            <div>
+              {{content}}
+            </div>
+          );
+        }
+      variables: ["componentName", "props", "content"]
+      usage: "Generate React components with TypeScript"
+    
+    - name: "api_endpoint"
+      description: "API endpoint template"
+      template: |
+        export async function {{methodName}}(req: Request, res: Response) {
+          try {
+            {{logic}}
+            return res.status(200).json({ success: true, data: {{response}} });
+          } catch (error) {
+            return res.status(500).json({ success: false, error: error.message });
+          }
+        }
+      variables: ["methodName", "logic", "response"]
+      usage: "Generate API endpoint handlers"
+  
+  defaultTemplate: "react_component"
+
+healthStatusHooks:
+  hooks:
+    - name: "manifest_validation_hook"
+      type: "health_check"
+      description: "Validates logic manifest integrity"
+      implementation: "validateManifestIntegrity(manifest)"
+      triggers: ["before_generation", "before_deployment"]
+    
+    - name: "blueprint_health_check"
+      type: "status_monitor"
+      description: "Monitors blueprint generation health"
+      implementation: "checkBlueprintHealth(blueprint)"
+      triggers: ["generation_complete", "hourly"]
+    
+    - name: "error_handler"
+      type: "failure_handler"
+      description: "Handles generation failures"
+      implementation: "handleGenerationError(error, context)"
+      triggers: ["generation_failed", "validation_failed"]
+  
+  defaultHooks: ["manifest_validation_hook", "error_handler"]
+
+auditRequirements:
+  requirements:
+    - name: "blueprint_generation_audit"
+      type: "user_action"
+      description: "Audit all blueprint generation activities"
+      requiredFields: ["user_id", "blueprint_id", "generation_time", "manifest_version"]
+      retentionPolicy: "7 years"
+    
+    - name: "manifest_access_audit"
+      type: "data_access"
+      description: "Audit access to logic manifests"
+      requiredFields: ["user_id", "manifest_id", "access_time", "operation"]
+      retentionPolicy: "3 years"
+    
+    - name: "system_health_audit"
+      type: "system_event"
+      description: "Audit system health events"
+      requiredFields: ["event_type", "timestamp", "severity", "details"]
+      retentionPolicy: "1 year"
+  
+  mandatoryAudits: ["blueprint_generation_audit", "manifest_access_audit"] 

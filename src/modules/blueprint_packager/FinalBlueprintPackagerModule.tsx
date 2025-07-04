@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { validateModuleData, schemaRegistry } from '../../lib/schemas';
-import { assembleFinalBlueprint, saveFinalBlueprint, loadModuleOutputs } from './blueprintPackagerUtils';
+import { assembleFinalBlueprint, saveFinalBlueprint, loadModuleOutputs, generateBuildManifest, validateLogicManifestSpec } from './blueprintPackagerUtils';
 
 interface ModuleOutput {
   [key: string]: unknown;
@@ -25,6 +25,7 @@ const REQUIRED_MODULES = [
 export default function FinalBlueprintPackagerModule() {
   const [moduleOutputs, setModuleOutputs] = useState<Record<string, ModuleOutput>>({});
   const [validationStatus, setValidationStatus] = useState<{ [key: string]: ValidationStatus }>({});
+  const [logicManifestValidation, setLogicManifestValidation] = useState<{ valid: boolean; errors: string[] }>({ valid: false, errors: [] });
   const [version, setVersion] = useState('');
   const [commanderSignoff, setCommanderSignoff] = useState('');
   const [outputPath, setOutputPath] = useState<string | null>(null);
@@ -73,11 +74,36 @@ export default function FinalBlueprintPackagerModule() {
       setPackagingError('All sections must be present, valid, and have version/sign-off.');
       return;
     }
+    const buildManifest = generateBuildManifest({
+      version,
+      modules: Object.keys(moduleOutputs).reduce((acc, key) => ({ ...acc, [key]: 'v1.0.0' }), {}),
+      stack: {
+        framework: 'Next.js 15.3.4',
+        hosting: 'Vercel',
+        persistence: 'File System'
+      },
+      dependencies: ['react', 'typescript', 'tailwindcss'],
+      doctrineReference: 'nuclear_doctrine_v1.2',
+      designNotes: 'Ultimate Blueprint Pilot - Logic Manifest Integration',
+      buildAgent: 'Cursor AI Assistant'
+    });
+
     const blueprint = assembleFinalBlueprint({
       moduleOutputs,
       version,
       commanderSignoff,
+      buildManifest,
     });
+    
+    // Validate logic manifest specification
+    const logicManifestValidation = validateLogicManifestSpec(blueprint.logic_manifest_spec);
+    setLogicManifestValidation(logicManifestValidation);
+    
+    if (!logicManifestValidation.valid) {
+      setPackagingError(`Logic manifest validation failed: ${logicManifestValidation.errors.join(', ')}`);
+      return;
+    }
+    
     const result = saveFinalBlueprint(blueprint);
     if (result.success) {
       setOutputPath(result.filePath || null);
@@ -126,6 +152,26 @@ export default function FinalBlueprintPackagerModule() {
             </li>
           ))}
         </ul>
+        
+        <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded">
+          <h4 className="font-semibold text-blue-900 mb-2">Logic Manifest Requirements</h4>
+          <div className="text-sm">
+            <div className="mb-2">
+              <span className="font-medium">Status:</span> {logicManifestValidation.valid ? '✅ Valid' : '❌ Invalid'}
+            </div>
+            {logicManifestValidation.errors.length > 0 && (
+              <div>
+                <span className="font-medium text-red-700">Errors:</span>
+                <ul className="ml-4 text-red-600 list-disc">
+                  {logicManifestValidation.errors.map((err, i) => <li key={i}>{err}</li>)}
+                </ul>
+              </div>
+            )}
+            <div className="mt-2 text-blue-700">
+              <strong>Required Fields:</strong> master_file_strategy, table_merge_plan, constants_variables_map, agent_interaction, cursor_scope, sustainment_plan, audit_map, build_agent, manifest_version
+            </div>
+          </div>
+        </div>
       </div>
       <button
         className={`px-6 py-3 rounded-lg font-medium ${canPackage() ? 'bg-green-600 text-white' : 'bg-gray-300 text-gray-500 cursor-not-allowed'}`}
