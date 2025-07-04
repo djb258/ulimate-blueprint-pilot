@@ -9,7 +9,7 @@ import { Blueprint, Phase } from '../types';
 import { useNotificationHelpers } from '../components/NotificationSystem';
 import { APP_CONFIG } from '../lib/constants';
 
-// Force Vercel rebuild - module files audit complete
+// Force Vercel rebuild - Start New Blueprint button fix deployed
 
 export default function Home() {
   const [currentBlueprint, setCurrentBlueprint] = useState<Blueprint | null>(null);
