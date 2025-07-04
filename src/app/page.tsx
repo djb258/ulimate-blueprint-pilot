@@ -215,7 +215,7 @@ export default function Home() {
             <div className="mb-8 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-6 border border-blue-200">
               <div className="text-center">
                 <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                  Welcome to Ultimate Blueprint Pilot
+                  Welcome to Ultimate Blueprint Pilot v2.0
                 </h2>
                 <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
                   Create comprehensive blueprints for your software projects with our structured approach. 
