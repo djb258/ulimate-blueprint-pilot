@@ -221,6 +221,34 @@ export default function Home() {
                   Create comprehensive blueprints for your software projects with our structured approach. 
                   Follow the 8-phase methodology to ensure nothing is missed in your development process.
                 </p>
+                <button 
+                  onClick={() => {
+                    // Initialize a new blueprint with the first phase
+                    const newBlueprint: Blueprint = {
+                      id: `blueprint-${Date.now()}`,
+                      name: 'New Blueprint',
+                      description: 'A new blueprint project',
+                      phases: mockPhases,
+                      createdAt: new Date(),
+                      updatedAt: new Date(),
+                      status: 'in_progress',
+                      metadata: {
+                        author: 'Commander',
+                        version: '1.0.0',
+                        tags: ['new', 'blueprint'],
+                        complexity: 'moderate',
+                        estimatedTotalTime: mockPhases.reduce((total, phase) => total + phase.estimatedDuration, 0),
+                        targetTechnologies: ['Next.js', 'React', 'TypeScript']
+                      }
+                    };
+                    setCurrentBlueprint(newBlueprint);
+                    setCurrentPhaseId('commander_intent');
+                    showSuccess('Blueprint Started', 'Your new blueprint has been created. Starting with Commander Intent phase.');
+                  }}
+                  className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-lg shadow-lg transition-colors duration-200 transform hover:scale-105"
+                >
+                  🚀 Start New Blueprint
+                </button>
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-sm">
                   <div className="bg-white p-4 rounded-lg shadow-sm">
                     <div className="font-semibold text-blue-600 mb-2">🎯 Intent</div>
