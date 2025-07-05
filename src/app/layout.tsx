@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { NotificationProvider } from "../components/NotificationSystem";
@@ -34,7 +34,11 @@ export const metadata: Metadata = {
     title: "Ultimate Blueprint Pilot",
     description: "Cockpit for designing micro-engineered blueprints",
   },
-  viewport: "width=device-width, initial-scale=1",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
   themeColor: "#3B82F6",
 };
 

@@ -50,17 +50,6 @@ const nextConfig: NextConfig = {
       },
     ];
   },
-  
-  // Redirects for better UX
-  async redirects() {
-    return [
-      {
-        source: '/',
-        destination: '/app',
-        permanent: false,
-      },
-    ];
-  },
 };
 
 export default nextConfig;
