@@ -1,64 +1,94 @@
 'use client';
 
-import Link from 'next/link';
+import PhaseTracker from '../components/PhaseTracker';
+import { Blueprint } from '../types';
 
 export default function Home() {
+  const handleBlueprintChange = (blueprint: Blueprint) => {
+    console.log('Blueprint updated:', blueprint);
+    // Here you would typically save to a database or state management
+  };
+
+  const handlePhaseComplete = (phaseId: string) => {
+    console.log('Phase completed:', phaseId);
+    // Handle phase completion logic
+  };
+
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-      <div className="text-center max-w-4xl mx-auto px-4">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">
-          Ultimate Blueprint Pilot
-        </h1>
-        <p className="text-gray-600 mb-8 text-lg">
-          Welcome to the blueprint design cockpit
-        </p>
-        
-        {/* Primary Action */}
-        <div className="mb-8">
-          <Link 
-            href="/prompts"
-            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-8 rounded-lg shadow-lg transition-colors duration-200 inline-block text-lg"
-          >
-            🚀 Start New Blueprint
-          </Link>
+    <div className="min-h-screen bg-gray-50 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+            Ultimate Blueprint Pilot
+          </h1>
+          <p className="text-xl text-gray-600">
+            Cockpit for designing micro-engineered blueprints
+          </p>
         </div>
 
-        {/* Secondary Navigation */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <Link 
-            href="/doctrine"
-            className="bg-white hover:bg-gray-50 border border-gray-200 text-gray-700 font-medium py-3 px-6 rounded-lg shadow-sm transition-colors duration-200 inline-block"
-          >
-            📋 Doctrine
-          </Link>
-          
-          <Link 
-            href="/drive"
-            className="bg-white hover:bg-gray-50 border border-gray-200 text-gray-700 font-medium py-3 px-6 rounded-lg shadow-sm transition-colors duration-200 inline-block"
-          >
-            ☁️ Drive Integration
-          </Link>
-          
-          <Link 
-            href="/logic-manifest"
-            className="bg-white hover:bg-gray-50 border border-gray-200 text-gray-700 font-medium py-3 px-6 rounded-lg shadow-sm transition-colors duration-200 inline-block"
-          >
-            ⚙️ Logic Manifest
-          </Link>
-          
-          <Link 
-            href="/reengineer"
-            className="bg-white hover:bg-gray-50 border border-gray-200 text-gray-700 font-medium py-3 px-6 rounded-lg shadow-sm transition-colors duration-200 inline-block"
-          >
-            🔧 Re-engineering
-          </Link>
-          
-          <Link 
-            href="/test"
-            className="bg-white hover:bg-gray-50 border border-gray-200 text-gray-700 font-medium py-3 px-6 rounded-lg shadow-sm transition-colors duration-200 inline-block"
-          >
-            🧪 Test Page
-          </Link>
+        {/* Main Content */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Phase Tracker - Main Content */}
+          <div className="lg:col-span-2">
+            <PhaseTracker
+              onBlueprintChange={handleBlueprintChange}
+              onPhaseComplete={handlePhaseComplete}
+            />
+          </div>
+
+          {/* Sidebar */}
+          <div className="space-y-6">
+            {/* Quick Actions */}
+            <div className="bg-white rounded-lg shadow-md p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
+              <div className="space-y-3">
+                <a
+                  href="/doctrine"
+                  className="block w-full px-4 py-2 text-sm font-medium text-gray-700 bg-gray-50 rounded-md hover:bg-gray-100 transition-colors"
+                >
+                  📋 View Doctrine
+                </a>
+                <a
+                  href="/drive"
+                  className="block w-full px-4 py-2 text-sm font-medium text-gray-700 bg-gray-50 rounded-md hover:bg-gray-100 transition-colors"
+                >
+                  ☁️ Drive Integration
+                </a>
+                <a
+                  href="/logic-manifest"
+                  className="block w-full px-4 py-2 text-sm font-medium text-gray-700 bg-gray-50 rounded-md hover:bg-gray-100 transition-colors"
+                >
+                  ⚙️ Logic Manifest
+                </a>
+                <a
+                  href="/reengineer"
+                  className="block w-full px-4 py-2 text-sm font-medium text-gray-700 bg-gray-50 rounded-md hover:bg-gray-100 transition-colors"
+                >
+                  🔧 Re-engineering
+                </a>
+              </div>
+            </div>
+
+            {/* Status */}
+            <div className="bg-white rounded-lg shadow-md p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">System Status</h3>
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-gray-600">Blueprint Engine</span>
+                  <span className="text-sm font-medium text-green-600">● Active</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-gray-600">Logic Manifest</span>
+                  <span className="text-sm font-medium text-green-600">● Loaded</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-gray-600">Phase Tracker</span>
+                  <span className="text-sm font-medium text-green-600">● Ready</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
