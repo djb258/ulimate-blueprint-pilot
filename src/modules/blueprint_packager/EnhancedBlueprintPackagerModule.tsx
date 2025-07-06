@@ -12,8 +12,7 @@ import {
   exportOrchestratedBlueprint,
   generateSampleFrameManifest,
   EnhancedBlueprintPackagerOptions,
-  EnhancedBlueprintPackagerResult,
-  OrchestratedBlueprintOutput
+  EnhancedBlueprintPackagerResult
 } from './enhancedBlueprintPackager';
 
 export default function EnhancedBlueprintPackagerModule() {

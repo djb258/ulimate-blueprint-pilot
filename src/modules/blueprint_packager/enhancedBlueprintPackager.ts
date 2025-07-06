@@ -8,18 +8,15 @@
 import {
   parseFrameManifest,
   decomposeApplicationDesign,
-  createOrchestratedBlueprintOutput,
-  generateMergePlan,
-  generateRoutingPlan
+  createOrchestratedBlueprintOutput
 } from '../../lib/subagentOrchestration';
 import {
   OrchestratedBlueprintOutput,
   FrameManifest,
-  ModuleDefinition,
   BuildManifest,
   LogicManifestSpec
 } from '../../types/subagentOrchestration';
-import { assembleFinalBlueprint, generateBuildManifest, validateBuildManifest } from './blueprintPackagerUtils';
+import { validateBuildManifest } from './blueprintPackagerUtils';
 
 export interface EnhancedBlueprintPackagerOptions {
   blueprintId: string;
