@@ -1,0 +1,818 @@
+{
+  "blueprint_id": "ultimate_blueprint_pilot_v2",
+  "version": "v2.0.0",
+  "doctrine_reference": "nuclear_doctrine_v1.2",
+  "commander_signoff": "commander@example.com",
+  
+  "modules": [
+    {
+      "id": "api_layer",
+      "name": "API Layer",
+      "description": "REST API endpoints and contracts with subagent orchestration",
+      "type": "api_layer",
+      "subagent_tasks": [
+        {
+          "id": "api_design_agent",
+          "name": "API Design Agent",
+          "description": "Design API endpoints and contracts following REST principles",
+          "agent_type": "api_layer_agent",
+          "role": "Primary API design specialist",
+          "responsibilities": [
+            "Execute api design tasks",
+            "Follow SHQ compliance requirements",
+            "Generate audit trails",
+            "Validate outputs"
+          ],
+          "input_schema": {
+            "module_id": "string",
+            "requirements": "object",
+            "constraints": "array"
+          },
+          "output_schema": {
+            "result": "object",
+            "validation_errors": "array",
+            "audit_trail": "object"
+          },
+          "dependencies": [],
+          "priority": "high",
+          "estimated_duration": 45,
+          "validation_rules": [
+            {
+              "field": "result",
+              "rule_type": "required",
+              "rule_value": true,
+              "error_message": "Subagent must produce a result",
+              "severity": "error"
+            }
+          ],
+          "audit_requirements": [
+            {
+              "audit_type": "output_validation",
+              "required_fields": ["result", "timestamp", "agent_id"],
+              "retention_period": "7 years",
+              "compliance_standard": "SHQ"
+            }
+          ],
+          "shq_compliance": {
+            "sub_hive_routing": {
+              "primary_route": {
+                "monte_major": "Monte_Major_Agent",
+                "tim_sandbox": "Tim_Sandbox_Agent",
+                "validator_major": "Validator_Major_Agent",
+                "description": "Standard SHQ routing path"
+              },
+              "routing_rules": []
+            },
+            "memory_requirements": [
+              {
+                "type": "short_term",
+                "capacity": "1GB",
+                "retention_policy": "24 hours",
+                "access_pattern": "read_write"
+              }
+            ],
+            "audit_trail": {
+              "enabled": true,
+              "log_level": "info",
+              "required_fields": ["timestamp", "agent_id", "action", "result"],
+              "storage_location": "audit_logs",
+              "encryption_required": true
+            },
+            "validation_gates": [
+              {
+                "gate_id": "output_validation",
+                "name": "Output Validation Gate",
+                "description": "Validate subagent output before proceeding",
+                "validation_rules": [],
+                "required_approval": false,
+                "failure_action": "fail"
+              }
+            ]
+          }
+        },
+        {
+          "id": "api_implementation_agent",
+          "name": "API Implementation Agent",
+          "description": "Implement API endpoints with proper error handling",
+          "agent_type": "api_layer_agent",
+          "role": "API implementation specialist",
+          "responsibilities": [
+            "Execute api implementation tasks",
+            "Follow SHQ compliance requirements",
+            "Generate audit trails",
+            "Validate outputs"
+          ],
+          "input_schema": {
+            "module_id": "string",
+            "requirements": "object",
+            "constraints": "array"
+          },
+          "output_schema": {
+            "result": "object",
+            "validation_errors": "array",
+            "audit_trail": "object"
+          },
+          "dependencies": ["api_design_agent"],
+          "priority": "high",
+          "estimated_duration": 60,
+          "validation_rules": [
+            {
+              "field": "result",
+              "rule_type": "required",
+              "rule_value": true,
+              "error_message": "Subagent must produce a result",
+              "severity": "error"
+            }
+          ],
+          "audit_requirements": [
+            {
+              "audit_type": "output_validation",
+              "required_fields": ["result", "timestamp", "agent_id"],
+              "retention_period": "7 years",
+              "compliance_standard": "SHQ"
+            }
+          ],
+          "shq_compliance": {
+            "sub_hive_routing": {
+              "primary_route": {
+                "monte_major": "Monte_Major_Agent",
+                "tim_sandbox": "Tim_Sandbox_Agent",
+                "validator_major": "Validator_Major_Agent",
+                "description": "Standard SHQ routing path"
+              },
+              "routing_rules": []
+            },
+            "memory_requirements": [
+              {
+                "type": "short_term",
+                "capacity": "1GB",
+                "retention_policy": "24 hours",
+                "access_pattern": "read_write"
+              }
+            ],
+            "audit_trail": {
+              "enabled": true,
+              "log_level": "info",
+              "required_fields": ["timestamp", "agent_id", "action", "result"],
+              "storage_location": "audit_logs",
+              "encryption_required": true
+            },
+            "validation_gates": [
+              {
+                "gate_id": "output_validation",
+                "name": "Output Validation Gate",
+                "description": "Validate subagent output before proceeding",
+                "validation_rules": [],
+                "required_approval": false,
+                "failure_action": "fail"
+              }
+            ]
+          }
+        },
+        {
+          "id": "api_testing_agent",
+          "name": "API Testing Agent",
+          "description": "Create comprehensive API tests with coverage reporting",
+          "agent_type": "test_agent",
+          "role": "API testing specialist",
+          "responsibilities": [
+            "Execute api testing tasks",
+            "Follow SHQ compliance requirements",
+            "Generate audit trails",
+            "Validate outputs"
+          ],
+          "input_schema": {
+            "module_id": "string",
+            "requirements": "object",
+            "constraints": "array"
+          },
+          "output_schema": {
+            "result": "object",
+            "validation_errors": "array",
+            "audit_trail": "object"
+          },
+          "dependencies": ["api_implementation_agent"],
+          "priority": "medium",
+          "estimated_duration": 30,
+          "validation_rules": [
+            {
+              "field": "result",
+              "rule_type": "required",
+              "rule_value": true,
+              "error_message": "Subagent must produce a result",
+              "severity": "error"
+            }
+          ],
+          "audit_requirements": [
+            {
+              "audit_type": "output_validation",
+              "required_fields": ["result", "timestamp", "agent_id"],
+              "retention_period": "7 years",
+              "compliance_standard": "SHQ"
+            }
+          ],
+          "shq_compliance": {
+            "sub_hive_routing": {
+              "primary_route": {
+                "monte_major": "Monte_Major_Agent",
+                "tim_sandbox": "Tim_Sandbox_Agent",
+                "validator_major": "Validator_Major_Agent",
+                "description": "Standard SHQ routing path"
+              },
+              "routing_rules": []
+            },
+            "memory_requirements": [
+              {
+                "type": "short_term",
+                "capacity": "1GB",
+                "retention_policy": "24 hours",
+                "access_pattern": "read_write"
+              }
+            ],
+            "audit_trail": {
+              "enabled": true,
+              "log_level": "info",
+              "required_fields": ["timestamp", "agent_id", "action", "result"],
+              "storage_location": "audit_logs",
+              "encryption_required": true
+            },
+            "validation_gates": [
+              {
+                "gate_id": "output_validation",
+                "name": "Output Validation Gate",
+                "description": "Validate subagent output before proceeding",
+                "validation_rules": [],
+                "required_approval": false,
+                "failure_action": "fail"
+              }
+            ]
+          }
+        }
+      ],
+      "dependencies": [],
+      "merge_strategy": {
+        "strategy_type": "sequential",
+        "merge_order": ["api_design_agent", "api_implementation_agent", "api_testing_agent"],
+        "conflict_resolution": {
+          "method": "last_wins",
+          "resolution_rules": [],
+          "escalation_path": ["commander_approval"]
+        },
+        "validation_steps": [
+          {
+            "step_id": "module_validation",
+            "name": "Module Output Validation",
+            "validation_type": "schema",
+            "validation_rules": [
+              {
+                "field": "output",
+                "rule_type": "required",
+                "rule_value": true,
+                "error_message": "Module API Layer must produce output",
+                "severity": "error"
+              },
+              {
+                "field": "format",
+                "rule_type": "format",
+                "rule_value": "json",
+                "error_message": "Module API Layer output must be in json format",
+                "severity": "error"
+              }
+            ],
+            "required": true
+          }
+        ]
+      },
+      "validation_rules": [
+        {
+          "field": "output",
+          "rule_type": "required",
+          "rule_value": true,
+          "error_message": "Module API Layer must produce output",
+          "severity": "error"
+        },
+        {
+          "field": "format",
+          "rule_type": "format",
+          "rule_value": "json",
+          "error_message": "Module API Layer output must be in json format",
+          "severity": "error"
+        }
+      ],
+      "output_format": "json"
+    },
+    {
+      "id": "data_models",
+      "name": "Data Models",
+      "description": "Database schemas and data models with validation",
+      "type": "data_models",
+      "subagent_tasks": [
+        {
+          "id": "data_modeling_agent",
+          "name": "Data Modeling Agent",
+          "description": "Design normalized database schemas and relationships",
+          "agent_type": "data_model_agent",
+          "role": "Data modeling specialist",
+          "responsibilities": [
+            "Execute data modeling tasks",
+            "Follow SHQ compliance requirements",
+            "Generate audit trails",
+            "Validate outputs"
+          ],
+          "input_schema": {
+            "module_id": "string",
+            "requirements": "object",
+            "constraints": "array"
+          },
+          "output_schema": {
+            "result": "object",
+            "validation_errors": "array",
+            "audit_trail": "object"
+          },
+          "dependencies": [],
+          "priority": "high",
+          "estimated_duration": 45,
+          "validation_rules": [
+            {
+              "field": "result",
+              "rule_type": "required",
+              "rule_value": true,
+              "error_message": "Subagent must produce a result",
+              "severity": "error"
+            }
+          ],
+          "audit_requirements": [
+            {
+              "audit_type": "output_validation",
+              "required_fields": ["result", "timestamp", "agent_id"],
+              "retention_period": "7 years",
+              "compliance_standard": "SHQ"
+            }
+          ],
+          "shq_compliance": {
+            "sub_hive_routing": {
+              "primary_route": {
+                "monte_major": "Monte_Major_Agent",
+                "tim_sandbox": "Tim_Sandbox_Agent",
+                "validator_major": "Validator_Major_Agent",
+                "description": "Standard SHQ routing path"
+              },
+              "routing_rules": []
+            },
+            "memory_requirements": [
+              {
+                "type": "short_term",
+                "capacity": "1GB",
+                "retention_policy": "24 hours",
+                "access_pattern": "read_write"
+              }
+            ],
+            "audit_trail": {
+              "enabled": true,
+              "log_level": "info",
+              "required_fields": ["timestamp", "agent_id", "action", "result"],
+              "storage_location": "audit_logs",
+              "encryption_required": true
+            },
+            "validation_gates": [
+              {
+                "gate_id": "output_validation",
+                "name": "Output Validation Gate",
+                "description": "Validate subagent output before proceeding",
+                "validation_rules": [],
+                "required_approval": false,
+                "failure_action": "fail"
+              }
+            ]
+          }
+        },
+        {
+          "id": "database_agent",
+          "name": "Database Agent",
+          "description": "Set up database migrations and connection management",
+          "agent_type": "data_model_agent",
+          "role": "Database setup specialist",
+          "responsibilities": [
+            "Execute database setup tasks",
+            "Follow SHQ compliance requirements",
+            "Generate audit trails",
+            "Validate outputs"
+          ],
+          "input_schema": {
+            "module_id": "string",
+            "requirements": "object",
+            "constraints": "array"
+          },
+          "output_schema": {
+            "result": "object",
+            "validation_errors": "array",
+            "audit_trail": "object"
+          },
+          "dependencies": ["data_modeling_agent"],
+          "priority": "high",
+          "estimated_duration": 30,
+          "validation_rules": [
+            {
+              "field": "result",
+              "rule_type": "required",
+              "rule_value": true,
+              "error_message": "Subagent must produce a result",
+              "severity": "error"
+            }
+          ],
+          "audit_requirements": [
+            {
+              "audit_type": "output_validation",
+              "required_fields": ["result", "timestamp", "agent_id"],
+              "retention_period": "7 years",
+              "compliance_standard": "SHQ"
+            }
+          ],
+          "shq_compliance": {
+            "sub_hive_routing": {
+              "primary_route": {
+                "monte_major": "Monte_Major_Agent",
+                "tim_sandbox": "Tim_Sandbox_Agent",
+                "validator_major": "Validator_Major_Agent",
+                "description": "Standard SHQ routing path"
+              },
+              "routing_rules": []
+            },
+            "memory_requirements": [
+              {
+                "type": "short_term",
+                "capacity": "1GB",
+                "retention_policy": "24 hours",
+                "access_pattern": "read_write"
+              }
+            ],
+            "audit_trail": {
+              "enabled": true,
+              "log_level": "info",
+              "required_fields": ["timestamp", "agent_id", "action", "result"],
+              "storage_location": "audit_logs",
+              "encryption_required": true
+            },
+            "validation_gates": [
+              {
+                "gate_id": "output_validation",
+                "name": "Output Validation Gate",
+                "description": "Validate subagent output before proceeding",
+                "validation_rules": [],
+                "required_approval": false,
+                "failure_action": "fail"
+              }
+            ]
+          }
+        }
+      ],
+      "dependencies": [],
+      "merge_strategy": {
+        "strategy_type": "sequential",
+        "merge_order": ["data_modeling_agent", "database_agent"],
+        "conflict_resolution": {
+          "method": "last_wins",
+          "resolution_rules": [],
+          "escalation_path": ["commander_approval"]
+        },
+        "validation_steps": [
+          {
+            "step_id": "module_validation",
+            "name": "Module Output Validation",
+            "validation_type": "schema",
+            "validation_rules": [
+              {
+                "field": "output",
+                "rule_type": "required",
+                "rule_value": true,
+                "error_message": "Module Data Models must produce output",
+                "severity": "error"
+              },
+              {
+                "field": "format",
+                "rule_type": "format",
+                "rule_value": "sql",
+                "error_message": "Module Data Models output must be in sql format",
+                "severity": "error"
+              }
+            ],
+            "required": true
+          }
+        ]
+      },
+      "validation_rules": [
+        {
+          "field": "output",
+          "rule_type": "required",
+          "rule_value": true,
+          "error_message": "Module Data Models must produce output",
+          "severity": "error"
+        },
+        {
+          "field": "format",
+          "rule_type": "format",
+          "rule_value": "sql",
+          "error_message": "Module Data Models output must be in sql format",
+          "severity": "error"
+        }
+      ],
+      "output_format": "sql"
+    }
+  ],
+  
+  "merge_plan": {
+    "integration_order": [
+      {
+        "step_id": "step_1",
+        "name": "Integrate API Layer",
+        "description": "Integrate outputs from API Layer module",
+        "subagent_tasks": ["api_design_agent", "api_implementation_agent", "api_testing_agent"],
+        "order": 1,
+        "dependencies": [],
+        "validation_required": true,
+        "approval_required": false
+      },
+      {
+        "step_id": "step_2",
+        "name": "Integrate Data Models",
+        "description": "Integrate outputs from Data Models module",
+        "subagent_tasks": ["data_modeling_agent", "database_agent"],
+        "order": 2,
+        "dependencies": ["step_1"],
+        "validation_required": true,
+        "approval_required": false
+      }
+    ],
+    "validation_steps": [
+      {
+        "step_id": "validation_1",
+        "name": "Validate API Layer",
+        "validation_type": "schema",
+        "validation_rules": [
+          {
+            "field": "output",
+            "rule_type": "required",
+            "rule_value": true,
+            "error_message": "Module API Layer must produce output",
+            "severity": "error"
+          },
+          {
+            "field": "format",
+            "rule_type": "format",
+            "rule_value": "json",
+            "error_message": "Module API Layer output must be in json format",
+            "severity": "error"
+          }
+        ],
+        "required": true
+      },
+      {
+        "step_id": "validation_2",
+        "name": "Validate Data Models",
+        "validation_type": "schema",
+        "validation_rules": [
+          {
+            "field": "output",
+            "rule_type": "required",
+            "rule_value": true,
+            "error_message": "Module Data Models must produce output",
+            "severity": "error"
+          },
+          {
+            "field": "format",
+            "rule_type": "format",
+            "rule_value": "sql",
+            "error_message": "Module Data Models output must be in sql format",
+            "severity": "error"
+          }
+        ],
+        "required": true
+      }
+    ],
+    "audit_steps": [
+      {
+        "step_id": "audit_1",
+        "name": "Audit API Layer",
+        "audit_type": "output",
+        "required_fields": ["timestamp", "module_id", "output"],
+        "audit_agent": "Audit_Agent",
+        "retention_period": "7 years"
+      },
+      {
+        "step_id": "audit_2",
+        "name": "Audit Data Models",
+        "audit_type": "output",
+        "required_fields": ["timestamp", "module_id", "output"],
+        "audit_agent": "Audit_Agent",
+        "retention_period": "7 years"
+      }
+    ],
+    "rollback_strategy": {
+      "enabled": true,
+      "rollback_points": [],
+      "automatic_rollback": false,
+      "manual_approval_required": true
+    },
+    "success_criteria": [
+      {
+        "criterion_id": "all_modules_integrated",
+        "name": "All Modules Integrated",
+        "description": "All modules must be successfully integrated",
+        "measurement_type": "boolean",
+        "expected_value": true,
+        "required": true
+      },
+      {
+        "criterion_id": "validation_passed",
+        "name": "Validation Passed",
+        "description": "All validation steps must pass",
+        "measurement_type": "boolean",
+        "expected_value": true,
+        "required": true
+      }
+    ]
+  },
+  
+  "routing_plan": {
+    "primary_route": {
+      "monte_major": "Monte_Major_Agent",
+      "tim_sandbox": "Tim_Sandbox_Agent",
+      "validator_major": "Validator_Major_Agent",
+      "description": "Standard SHQ routing path"
+    },
+    "fallback_routes": [
+      {
+        "monte_major": "Monte_Major_Backup",
+        "tim_sandbox": "Tim_Sandbox_Backup",
+        "validator_major": "Validator_Major_Backup",
+        "description": "Backup routing path"
+      }
+    ],
+    "routing_rules": [
+      {
+        "condition": "primary_route_failed",
+        "route": {
+          "monte_major": "Monte_Major_Backup",
+          "tim_sandbox": "Tim_Sandbox_Backup",
+          "validator_major": "Validator_Major_Backup",
+          "description": "Fallback routing on primary failure"
+        },
+        "priority": 1
+      }
+    ],
+    "monitoring_points": [
+      {
+        "point_id": "monte_major_monitor",
+        "name": "Monte Major Monitor",
+        "location": "Monte_Major_Agent",
+        "metrics": [
+          {
+            "name": "processing_time",
+            "type": "histogram",
+            "unit": "seconds",
+            "description": "Time taken to process requests"
+          }
+        ],
+        "alert_thresholds": [
+          {
+            "metric_name": "processing_time",
+            "threshold_value": 30,
+            "comparison": "gt",
+            "severity": "high",
+            "action": "escalate_to_commander"
+          }
+        ]
+      }
+    ],
+    "failure_handling": {
+      "retry_policy": {
+        "max_retries": 3,
+        "backoff_strategy": "exponential",
+        "retry_delay": 5,
+        "max_delay": 60
+      },
+      "circuit_breaker": {
+        "enabled": true,
+        "failure_threshold": 5,
+        "recovery_timeout": 300,
+        "half_open_state": true
+      },
+      "fallback_actions": [
+        {
+          "action_id": "manual_intervention",
+          "name": "Manual Intervention",
+          "description": "Require manual intervention on repeated failures",
+          "trigger_condition": "max_retries_exceeded",
+          "action_type": "manual_intervention",
+          "escalation_path": ["commander_approval"]
+        }
+      ]
+    }
+  },
+  
+  "build_manifest": {
+    "build_version": "v2.0.0",
+    "build_date": "2025-01-03",
+    "stack": {
+      "framework": "Next.js 15.3.4",
+      "hosting": "Vercel",
+      "persistence": "File System"
+    },
+    "modules": {
+      "api_layer": "v2.0.0",
+      "data_models": "v2.0.0",
+      "tests": "v2.0.0",
+      "logging": "v2.0.0",
+      "sustainment_hooks": "v2.0.0",
+      "ui": "v2.0.0",
+      "cursor_templates": "v2.0.0",
+      "security": "v2.0.0",
+      "integration": "v2.0.0",
+      "validation": "v2.0.0"
+    },
+    "external_dependencies": [
+      "react",
+      "typescript",
+      "tailwindcss",
+      "next"
+    ],
+    "doctrine_reference": "nuclear_doctrine_v1.2",
+    "design_notes": "Enhanced Blueprint Pilot with Modular Subagent Orchestration - All builds must consume embedded logic manifest and follow SHQ routing through Monte_Major → Tim_Sandbox → Validator_Major",
+    "build_agent": "Enhanced Blueprint Packager"
+  },
+  
+  "logic_manifest_required": true,
+  "logic_manifest_spec": {
+    "required_fields": [
+      "master_file_strategy",
+      "table_merge_plan",
+      "constants_variables_map",
+      "agent_interaction",
+      "cursor_scope",
+      "sustainment_plan",
+      "audit_map",
+      "build_agent",
+      "manifest_version"
+    ],
+    "master_file_strategy": {
+      "primary_files": ["src/app/page.tsx", "src/app/layout.tsx", "package.json"],
+      "secondary_files": ["src/components/", "src/lib/", "config/"],
+      "merge_strategy": "manifest_guided_merge"
+    },
+    "table_merge_plan": {
+      "source_tables": ["users", "blueprints", "logic_manifests"],
+      "target_tables": ["users", "blueprints", "logic_manifests"],
+      "merge_rules": {
+        "users": "merge_by_email",
+        "blueprints": "merge_by_id",
+        "logic_manifests": "merge_by_version"
+      }
+    },
+    "constants_variables_map": {
+      "global_constants": ["MAX_BLUEPRINT_SIZE", "DEFAULT_TIMEOUT", "MANIFEST_VERSION"],
+      "module_variables": ["currentUser", "blueprintData"],
+      "validation_rules": {
+        "email": ["not_null", "email_format"],
+        "blueprint": ["not_null", "valid_json"],
+        "manifest": ["not_null", "valid_manifest"]
+      }
+    },
+    "agent_interaction": {
+      "allowed_patterns": ["blueprint_generation", "code_generation", "manifest_validation"],
+      "forbidden_operations": ["freelancing", "manifest_modification", "scope_violation"],
+      "interaction_scope": "manifest_defined_only"
+    },
+    "cursor_scope": {
+      "template_usage": ["react_component", "api_endpoint", "database_schema"],
+      "code_generation_rules": ["follow_manifest", "use_templates", "validate_output"],
+      "modification_limits": ["no_manifest_changes", "no_scope_expansion", "no_freelancing"]
+    },
+    "sustainment_plan": {
+      "health_checks": ["manifest_validation_hook", "blueprint_health_check"],
+      "monitoring_hooks": ["generation_monitor", "error_tracker"],
+      "failure_handlers": ["error_handler", "rollback_handler"]
+    },
+    "audit_map": {
+      "required_audits": ["blueprint_generation_audit", "manifest_access_audit"],
+      "audit_fields": {
+        "generation": ["user_id", "blueprint_id", "generation_time", "manifest_version"],
+        "access": ["user_id", "manifest_id", "access_time", "operation"]
+      },
+      "retention_policies": {
+        "generation_audits": "7 years",
+        "access_audits": "3 years",
+        "system_audits": "1 year"
+      }
+    },
+    "build_agent": "Enhanced Blueprint Packager",
+    "manifest_version": "2.0.0"
+  },
+  
+  "metadata": {
+    "assembledAt": "2025-01-03T12:00:00.000Z",
+    "assembledBy": "subagent_orchestration_system",
+    "orchestration_version": "1.0.0",
+    "total_subagents": 5,
+    "estimated_completion_time": 210
+  }
+} 

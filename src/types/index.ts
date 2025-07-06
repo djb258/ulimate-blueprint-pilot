@@ -713,3 +713,6 @@ export interface PingPongAuditLog {
   details?: string;
   field_updated?: string;
 }
+
+// Re-export subagent orchestration types
+export * from './subagentOrchestration';
