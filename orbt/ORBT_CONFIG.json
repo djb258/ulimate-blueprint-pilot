@@ -1,0 +1,8 @@
+{
+  "auto_enforce": true,
+  "barton_doctrine": true,
+  "pre_commit_validation": true,
+  "deployment_gate": true,
+  "setup_date": "2025-07-11T21:09:57.724Z",
+  "version": "1.0.0"
+}

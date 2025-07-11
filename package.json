@@ -8,14 +8,18 @@
     "url": "https://github.com/djb258/ultimate-blueprint-pilot.git"
   },
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build",
+    "dev": "npm run orbt:bootstrap && next dev --turbopack",
+    "build": "npm run orbt:validate && next build",
     "archive-build": "npm run build && node move-build.js",
     "start": "next start",
     "lint": "next lint",
-    "deploy": "vercel --prod",
+    "deploy": "npm run orbt:deployment-gate && vercel --prod",
     "deploy:preview": "vercel",
-    "vercel-build": "next build"
+    "vercel-build": "next build",
+    "orbt:bootstrap": "node orbt-bootstrap.js",
+    "orbt:validate": "node orbt-validate.js",
+    "orbt:deployment-gate": "node orbt-deployment-gate.js",
+    "orbt:check": "npm run orbt:bootstrap && npm run orbt:validate"
   },
   "dependencies": {
     "@types/uuid": "^10.0.0",
